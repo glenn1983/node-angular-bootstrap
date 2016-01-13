@@ -11,49 +11,12 @@
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body ng-app="myapp">
-<div ng-controller="mycontroller" class="container">
-    <div class="row col-xs-6 col-md-offset-3">
-        <div class="panel panel-default">
-            <form class="panel-body" role="form">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="username" ng-model="username" name="username" placeholder="请输入用户名">
-                </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" class="form-control" id="password" ng-model="password" name="username" placeholder="请输入用户名">
-                </div>
-                <div class="form-group">
-                    <a class="row col-xs-5">没有用户？注册一个吧！</a>
-                </div>
-                <input type="button" value="登录" class="btn btn-info row col-xs-3 col-md-offset-8" />
-                <div class="form-group">
-                    <a class="row col-xs-3 col-md-offset-9 pdtop">忘记密码？</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row col-xs-6 col-md-offset-3">
-        <div class="panel panel-default">
-            <form class="panel-body" role="form">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="username" ng-model="username" name="username" placeholder="请输入用户名">
-                </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" class="form-control" id="password" ng-model="password" name="password" placeholder="请输入密码">
-                </div>
-                <div class="form-group">
-                    <label for="password">确认密码</label>
-                    <input type="password" class="form-control" id="repassword" ng-model="repassword" name="repassword" placeholder="请输入密码">
-                </div>
-                <input type="button" value="注册" class="btn btn-info row col-xs-3 col-md-offset-8" />
-            </form>
-        </div>
-    </div>
+<div class="container">
+    <div ng-view></div>
 </div>
 </body>
 <script src="js/Lib/angular.min.js"></script>
+<script src="js/Lib/angular-route.min.js"></script>
+<script src="js/app.js"></script>
 <script src="js/main.js"></script>
 </html>

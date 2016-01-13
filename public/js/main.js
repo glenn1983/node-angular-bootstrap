@@ -1,4 +1,97 @@
-var app = angular.module('myapp',[]);
-app.controller('mycontroller',['$scope',function($scope){
-    $scope.name = "焦糖玛奇朵";
+app.config(['$routeProvider',function($routeProvider) {
+    $routeProvider.when('/',{
+            templateUrl: 'template/index.html',
+            controller: 'shopListController'
+        })
+        .when('/login', {
+            templateUrl: 'template/index_login.html',
+            controller: 'loginController'
+        })
+        .when('/register',{
+            templateUrl: 'template/index_register.html',
+            controller: 'registerController'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
+}]);
+app.factory('regService',function(){
+    return {
+        username : function(str){
+            if(str){
+                return /^[\w][\w\d_]{6,20}$/.test(str);
+            }
+        },
+        password : function(str){
+            if(str){
+                return /^[\w\d]{6,20}$/.test(str);
+            }
+        }
+    }
+});
+app.factory('userInfo',['$q','$http',function($q,$http){
+    function reg(user,pass){
+        var $d = $q.defer();
+        $http.post('/register',{username:user,password : pass}).success(function(data,status){
+            $d.resolve(data);
+        }).error(function(data,status){
+            $d.reject(data);
+        });
+        return $d.promise;
+    }
+    return {
+        'reg' : reg
+    }
+}]);
+app.controller('loginController',['$scope','$location',function($scope,$location){
+    $scope.changeTemplate = function(i){
+        if(!i){
+            $location.path('/login');
+        }else{
+            $location.path('/register');
+        }
+    };
+}]);
+app.controller('registerController',['$scope','$location','regService','userInfo',function($scope,$location,regService,userInfo){
+    $scope.changeTemplate = function(i){
+        if(!i){
+            $location.path('/login');
+        }else{
+            $location.path('/register');
+        }
+    };
+    $scope.username = '',
+    $scope.password = '',
+    $scope.repassword = '';
+    $scope.register = function(){
+        if($scope.username && $scope.password && $scope.repassword){
+            var username = $scope.username,
+                password = $scope.password,
+                repassword = $scope.repassword;
+            if(password && repassword){
+                if(!regService.username(username)){
+                    alert('用户名格式不正确');
+                    return
+                }
+                if(!regService.password(password)){
+                    alert('密码格式不正确');
+                    return
+                }
+                userInfo.reg(username,password).then(function(data){
+                   if(data.status){
+                       alert('注册成功');
+                       $location.path('/');
+                   }
+                });
+            }else{
+                alert('两次输入密码不一致！');
+            }
+
+        }else{
+            alert('请填写完整');
+        }
+    }
+}]);
+app.controller('shopListController',['$scope','$location',function($scope,$location){
+
 }]);
