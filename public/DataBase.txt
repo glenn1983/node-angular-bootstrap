@@ -1,0 +1,13 @@
+数据库设计：
+数据库名称 ：zzyanode  (周正义的angular、nodejs 练习开发的测试用例数据库)
+ 数据排列规则：utf8_general_ci
+ 已创建表有：user表：字段为：id(主键 ，int 6 属性：unsigned,额外：auto_increment)[现在规定为表结构主键的规定格式]
+                             username( varchar 50 )
+                             password (varchar 200 )
+                             nickname ( varchar 30)
+                             merchant (int 2)//0普通用户，1商家，2管理员
+                             后续可能添加
+            shoplist表 ： id(主键 ，int 6 属性：unsigned,额外：auto_increment)
+                          user_id (int 20)
+                          shop_name(varchar 50)
+                          shop_type (varchar 50)

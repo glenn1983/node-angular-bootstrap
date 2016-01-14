@@ -10,3 +10,50 @@ a {
 .pdtop{
     padding-top: 4px;
 }
+.mtop{
+    margin-top: 20px;
+}
+.blkinlin{
+    display: inline-block;
+}
+.fleftnone{
+    float: none;
+}
+.h100p{height: 100px;}
+.lineH80{
+    line-height: 80px;
+}
+.lineH100{
+    line-height: 100px;
+}
+.lineH200{
+    line-height: 200px;
+}
+.fSize36{
+    font-size:36px;
+}
+.fSize24{
+    font-size:24px;
+}
+.fSize18{
+    font-size:18px;
+}
+.fColorT{
+    color: #FF4600;
+}
+.fFamilykai{
+    font-family: '楷体';
+}
+.fItalic{
+    font-style: italic;
+}
+.bdred{
+    border: 1px solid #67b168;
+}
+.conbg{/*主体背景颜色*/
+    background: #F8E590;
+}
+/*底部div颜色*/
+.fterdiv{
+    background: #0075AD;
+}

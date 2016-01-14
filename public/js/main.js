@@ -19,15 +19,25 @@ app.factory('regService',function(){
     return {
         username : function(str){
             if(str){
-                return /^[\w][\w\d_]{6,20}$/.test(str);
+                return /^[\w][\w\d_]{5,20}$/.test(str);
             }
         },
         password : function(str){
             if(str){
-                return /^[\w\d]{6,20}$/.test(str);
+                return /^[\w\d]{5,20}$/.test(str);
             }
         }
     }
+});
+app.factory('userLog',function(){
+    function thisDate(){
+        var d = new Date(),
+            time = d.getFullYear()+"-"+ (d.getMonth()+1)+"-"+ d.getDate();
+            return time;
+    }
+    return {
+        thisDate : thisDate
+    };
 });
 app.factory('userInfo',['$q','$http',function($q,$http){
     function reg(user,pass){
@@ -39,11 +49,27 @@ app.factory('userInfo',['$q','$http',function($q,$http){
         });
         return $d.promise;
     }
+    function login(user,pass){
+        var $d = $q.defer();
+        $http.post('/login',{username:user,password : pass}).success(function(data,status){
+            $d.resolve(data);
+        }).error(function(data,status){
+            $d.reject(data);
+        });
+        return $d.promise;
+    }
     return {
-        'reg' : reg
+        'reg' : reg,
+        'login' : login
     }
 }]);
-app.controller('loginController',['$scope','$location',function($scope,$location){
+app.controller('loginController',['$scope','$location','$cookieStore','userLog','regService','userInfo',function($scope,$location,$cookieStore,userLog,regService,userInfo){
+    var isLogin = $cookieStore.get('login'),
+        username = '',
+        password = '';
+    if(isLogin === userLog.thisDate()){
+        $location.path('/');
+    }
     $scope.changeTemplate = function(i){
         if(!i){
             $location.path('/login');
@@ -51,8 +77,25 @@ app.controller('loginController',['$scope','$location',function($scope,$location
             $location.path('/register');
         }
     };
+    $scope.login = function(){
+        username = $scope.username,
+        password = $scope.password;
+        userInfo.login(username,password).then(function(data){
+            if(data.status){
+                $cookieStore.put('login',userLog.thisDate());
+                $cookieStore.put('id',data.id);
+                $location.path('/');
+            }else{
+                alert(data.msg);
+            }
+        });
+    }
 }]);
-app.controller('registerController',['$scope','$location','regService','userInfo',function($scope,$location,regService,userInfo){
+app.controller('registerController',['$scope','$location','regService','userInfo','$cookieStore','userLog',function($scope,$location,regService,userInfo,$cookieStore,userLog){
+    var isLogin = $cookieStore.get('login');
+    if(isLogin === userLog.thisDate()){
+        $location.path('/');
+    }
     $scope.changeTemplate = function(i){
         if(!i){
             $location.path('/login');
@@ -80,7 +123,11 @@ app.controller('registerController',['$scope','$location','regService','userInfo
                 userInfo.reg(username,password).then(function(data){
                    if(data.status){
                        alert('注册成功');
+                       $cookieStore.put('login',userLog.thisDate());
+                       $cookieStore.put('id',data.id);
                        $location.path('/');
+                   }else{
+                       alert(data.msg);
                    }
                 });
             }else{
@@ -92,6 +139,9 @@ app.controller('registerController',['$scope','$location','regService','userInfo
         }
     }
 }]);
-app.controller('shopListController',['$scope','$location',function($scope,$location){
-
+app.controller('shopListController',['$scope','$location','$cookieStore','userLog',function($scope,$location,$cookieStore,userLog){
+    var isLogin = $cookieStore.get('login');
+    if(isLogin !== userLog.thisDate()){
+        $location.path('/login');
+    }
 }]);
