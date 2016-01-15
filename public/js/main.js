@@ -15,58 +15,11 @@ app.config(['$routeProvider',function($routeProvider) {
             redirectTo: '/'
         });
 }]);
-app.factory('regService',function(){
-    return {
-        username : function(str){
-            if(str){
-                return /^[\w][\w\d_]{5,20}$/.test(str);
-            }
-        },
-        password : function(str){
-            if(str){
-                return /^[\w\d]{5,20}$/.test(str);
-            }
-        }
-    }
-});
-app.factory('userLog',function(){
-    function thisDate(){
-        var d = new Date(),
-            time = d.getFullYear()+"-"+ (d.getMonth()+1)+"-"+ d.getDate();
-            return time;
-    }
-    return {
-        thisDate : thisDate
-    };
-});
-app.factory('userInfo',['$q','$http',function($q,$http){
-    function reg(user,pass){
-        var $d = $q.defer();
-        $http.post('/register',{username:user,password : pass}).success(function(data,status){
-            $d.resolve(data);
-        }).error(function(data,status){
-            $d.reject(data);
-        });
-        return $d.promise;
-    }
-    function login(user,pass){
-        var $d = $q.defer();
-        $http.post('/login',{username:user,password : pass}).success(function(data,status){
-            $d.resolve(data);
-        }).error(function(data,status){
-            $d.reject(data);
-        });
-        return $d.promise;
-    }
-    return {
-        'reg' : reg,
-        'login' : login
-    }
-}]);
-app.controller('loginController',['$scope','$location','$cookieStore','userLog','regService','userInfo',function($scope,$location,$cookieStore,userLog,regService,userInfo){
+app.controller('loginController',['$scope','$location','$cookieStore','userLog','regService','userService',function($scope,$location,$cookieStore,userLog,regService,userService){
     var isLogin = $cookieStore.get('login'),
         username = '',
         password = '';
+    $scope.background = '';
     if(isLogin === userLog.thisDate()){
         $location.path('/');
     }
@@ -80,7 +33,7 @@ app.controller('loginController',['$scope','$location','$cookieStore','userLog',
     $scope.login = function(){
         username = $scope.username,
         password = $scope.password;
-        userInfo.login(username,password).then(function(data){
+        userService.login(username,password).then(function(data){
             if(data.status){
                 $cookieStore.put('login',userLog.thisDate());
                 $cookieStore.put('id',data.id);
@@ -91,11 +44,12 @@ app.controller('loginController',['$scope','$location','$cookieStore','userLog',
         });
     }
 }]);
-app.controller('registerController',['$scope','$location','regService','userInfo','$cookieStore','userLog',function($scope,$location,regService,userInfo,$cookieStore,userLog){
+app.controller('registerController',['$scope','$location','regService','userService','$cookieStore','userLog',function($scope,$location,regService,userService,$cookieStore,userLog){
     var isLogin = $cookieStore.get('login');
     if(isLogin === userLog.thisDate()){
         $location.path('/');
     }
+    $scope.background = '';
     $scope.changeTemplate = function(i){
         if(!i){
             $location.path('/login');
@@ -120,7 +74,7 @@ app.controller('registerController',['$scope','$location','regService','userInfo
                     alert('密码格式不正确');
                     return
                 }
-                userInfo.reg(username,password).then(function(data){
+                userService.reg(username,password).then(function(data){
                    if(data.status){
                        alert('注册成功');
                        $cookieStore.put('login',userLog.thisDate());
@@ -139,9 +93,27 @@ app.controller('registerController',['$scope','$location','regService','userInfo
         }
     }
 }]);
-app.controller('shopListController',['$scope','$location','$cookieStore','userLog',function($scope,$location,$cookieStore,userLog){
-    var isLogin = $cookieStore.get('login');
+app.controller('shopListController',['$scope','$location','$cookieStore','userLog','userService',function($scope,$location,$cookieStore,userLog,userService){
+    var isLogin = $cookieStore.get('login'),
+        userId = $cookieStore.get('id');
+    $scope.background = 'conbg',
+    $scope.userInfo = {};
     if(isLogin !== userLog.thisDate()){
         $location.path('/login');
+    }
+    userService.userInfo(userId).then(function(data){
+        if(data.status){
+            $scope.userInfo['id'] = data.id,
+            $scope.userInfo['nickname'] = data.nickname,
+            $scope.userInfo['limit'] = data.limit;
+        }
+    });
+    $scope.exit = function(){
+        $cookieStore.remove('login'),
+        $cookieStore.remove('id');
+        $location.path('/login');
+    }
+    $scope.userLink = function(i){
+        return 'users?userid='+userId+'type = '+i;
     }
 }]);

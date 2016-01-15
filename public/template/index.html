@@ -1,17 +1,23 @@
-<div class="row">
-    <div class="col-lg-1 col-lg-offset-3">
-        <img class="img-circle" src="./img/logo.jpg">
+<div class="container" ng-class="background">
+    <div class="row">
+        <a class="col-lg-2 text-danger pdtop">{{userInfo.nickname}}</a>
+        <a class="col-lg-2 text-danger pdtop"ng-click="exit()">退出</a>
     </div>
-    <div class="col-lg-4 col-lg-offset-4 lineH80 fSize24 fFamilykai fItalic fColorT mtop">周正义的个人网站，我什么都不卖，只是让你看看</div>
-</div>
-<div class="row">
-    <div class="col-lg-4 fterdiv bdred">
-        <input type="button" class="btn btn-info col-lg-6 col-lg-offset-3 " value="个人主页" />
+    <div class="row">
+        <div class="col-lg-1 col-lg-offset-3">
+            <img class="img-circle" src="./img/logo.jpg">
+        </div>
+        <div class="col-lg-4 col-lg-offset-4 lineH80 fSize24 fFamilykai fItalic fColorT mtop">周正义的个人网站，我什么都不卖，只是让你看看</div>
     </div>
-    <div class="col-lg-4 fterdiv bdred">
-        <input type="button" class="btn btn-info col-lg-6 col-lg-offset-3" value="商家信息" />
-    </div>
-    <div class="col-lg-4 fterdiv bdred">
-        <input type="button" class="btn btn-info col-lg-6 col-lg-offset-3" value="用户信息" />
+    <div class="row">
+        <div class="col-lg-4 fterdiv bdred">
+            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(1)}}" target="_blank">个人中心</a>
+        </div>
+        <div class="col-lg-4 fterdiv bdred">
+            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(2)}}" target="_blank">商家信息</a>
+        </div>
+        <div class="col-lg-4 fterdiv bdred" ng-show="userInfo.limit === 2">
+            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(3)}}" target="_blank">平台用户</a>
+        </div>
     </div>
 </div>
