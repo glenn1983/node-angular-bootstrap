@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
+var personal_center = require('./routes/personal_center');
 var app = express();
 
 // view engine setup
@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-
+app.use('/personal_center',personal_center);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('没有找到您请求的页面');
