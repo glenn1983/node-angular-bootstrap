@@ -20,8 +20,34 @@ app.controller('personalController',['$scope','$location','$cookieStore','userLo
         $location.path('/edit');
     }
 }]);
-app.controller('editRecordController',['$scope','$location','userLog',function($scope,$location,userLog){
+app.controller('editRecordController',['$scope','$location','userLog','$cookieStore','userService','$window',function($scope,$location,userLog,$cookieStore,userService,$window){
     $scope.cancel = function () {
         $location.path('/');
     }
-}]);
+    /*
+    *id,QQ,motto,salary,orientation,interest,wishful,,homeland,address,profession,color,avatar
+    * */
+   var data = {
+        id : $cookieStore.get('id'),
+       nickname:$scope.nickname,
+        QQ : $scope.QQ||'',
+        motto : $scope.motto||'',
+        salary : $scope.salary||'',
+        orientation : $scope.orientation||'',
+        interest : $scope.interest||'',
+        wishful : $scope.wishful||'',
+        homeland : $scope.homeland||'',
+        address : $scope.address||'',
+        profession : $scope.profession||'',
+        color : $scope.color||'',
+        avatar : $scope.avatar||''
+    };
+    $scope.save = function () {
+        userService.record(data).then(function(data){
+            if(data.status === 1){
+                alert('修改成功！');
+                $window.location.reload('/');
+            }
+        });
+    }
+ }]);

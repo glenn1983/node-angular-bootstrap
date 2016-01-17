@@ -5,75 +5,81 @@ wishful:result.wishful,homeland:result.homeland,address:result.address,professio
 <div class="container">
     <form class="form-horizontal">
         <div class="form-group">
+            <label for="nickname" class="col-sm-2 control-label">昵称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="nickname" name="nickname" ng-model="nickname"  placeholder="昵称">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="QQ" class="col-sm-2 control-label">QQ</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="QQ" placeholder="QQ">
+                <input type="number" class="form-control" id="QQ" name="QQ" ng-model="QQ" placeholder="QQ">
             </div>
         </div>
         <div class="form-group">
             <label for="motto" class="col-sm-2 control-label">格言</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="motto" placeholder="格言">
+                <input type="text" class="form-control" id="motto" name="motto" ng-model="motto" placeholder="格言">
             </div>
         </div>
         <div class="form-group">
             <label for="salary" class="col-sm-2 control-label">薪资</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="salary" placeholder="薪资">
+                <input type="text" class="form-control" id="salary" name="salary" ng-model="salary" placeholder="薪资">
             </div>
         </div>
         <div class="form-group">
             <label for="orientation" class="col-sm-2 control-label">消费取向</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="orientation" placeholder="消费取向">
+                <input type="text" class="form-control" id="orientation" name="orientation" ng-model="orientation" placeholder="消费取向">
             </div>
         </div>
         <div class="form-group">
             <label for="interest" class="col-sm-2 control-label">兴趣爱好</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="interest" placeholder="兴趣爱好">
+                <input type="text" class="form-control" id="interest" name="interest" ng-model="interest" placeholder="兴趣爱好">
             </div>
         </div>
         <div class="form-group">
             <label for="wishful" class="col-sm-2 control-label">向往</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="wishful" placeholder="向往">
+                <input type="text" class="form-control" id="wishful" name="wishful" ng-model="wishful" placeholder="向往">
             </div>
         </div>
         <div class="form-group">
             <label for="homeland" class="col-sm-2 control-label">家乡</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="homeland" placeholder="家乡">
+                <input type="text" class="form-control" id="homeland" name="homeland" ng-model="homeland" placeholder="家乡">
             </div>
         </div>
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">现住址</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="address" placeholder="现住址">
+                <input type="text" class="form-control" id="address" name="address" ng-model="address"  placeholder="现住址">
             </div>
         </div>
         <div class="form-group">
             <label for="profession" class="col-sm-2 control-label">职业</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="profession" placeholder="职业">
+                <input type="text" class="form-control" id="profession" name="profession" ng-model="profession" placeholder="职业">
             </div>
         </div>
         <div class="form-group">
             <label for="color" class="col-sm-2 control-label">喜欢的颜色</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="color" placeholder="喜欢的颜色">
+                <input type="text" class="form-control" id="color" name="color" ng-model="color" placeholder="喜欢的颜色">
             </div>
         </div>
         <div class="form-group">
             <label for="avatar" class="col-sm-2 control-label">头像</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="avatar" placeholder="头像">
+                <input type="text" class="form-control" id="avatar" name="avatar" ng-model="avatar" placeholder="头像">
             </div>
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">保存</button>
+                    <button type="submit" class="btn btn-default" ng-click="save()">保存</button>
                     <button type="button" class="btn btn-danger col-sm-offset-1" ng-click="cancel()">取消</button>
                 </div>
             </div>

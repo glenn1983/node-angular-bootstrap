@@ -26,9 +26,19 @@ app.factory('userService',['$q','$http',function($q,$http){
         });
         return $d.promise;
     }
+    function record(data){/*资料编辑*/
+        var $d = $q.defer();
+        $http.post('/personal_center/record',data).success(function(data,status){
+            $d.resolve(data);
+        }).error(function(data,status){
+            $d.reject(data);
+        });
+        return $d.promise;
+    }
     return {
         'reg' : reg,
         'login' : login,
-        'userInfo' : userInfo
+        'userInfo' : userInfo,
+        'record': record
     }
 }]);
