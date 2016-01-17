@@ -7,7 +7,7 @@
                              nickname ( varchar 30)
                              limit (int 2)//0普通用户，1商家，2管理员
                              后续可能添加
-            userRecord : id(主键 ，int 6 属性：unsigned,额外：auto_increment)
+            userRecord : id(主键 ，int 6 属性：unsigned,额外：auto_increment)//用户个人资料
                          user_id  (int 6)
                          QQ (int 15)
                          motto (varchar 200 : 格言)
