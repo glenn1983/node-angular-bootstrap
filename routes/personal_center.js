@@ -41,12 +41,12 @@ router.post('/record', function(req, res, next) {
         color = req.param('color'),
         avatar = req.param('avatar'),
         nickname = req.param('nickname');
-    sqlHelper.query('update user u,user_record r set u.nickname = "'+nickname+'" and r.QQ="'+QQ+'" and r.motto="'+motto+'" and r.salary="'+salary+'" and r.orientation="'+orientation+'" and r.interest="'+interest+'" and r.wishful="'+wishful
-        +'" and r.homeland="'+homeland+'" and r.address="'+address+'"  and r.profession="'+profession+'" and r.color="'+color/*+'" and r.avatar="'+avatar+'"*/+'" where u.id = r.user_id and u.id = '+id,function(err,results,fields) {
+    sqlHelper.query('update user u INNER JOIN user_record r ON u.id = r.user_id set u.nickname = "'+nickname+'", r.QQ="'+QQ+'", r.motto="'+motto+'", r.salary="'+salary+'", r.orientation="'+orientation+'", r.interest="'+interest+'", r.wishful="'+wishful
+        +'", r.homeland="'+homeland+'", r.address="'+address+'", r.profession="'+profession+'", r.color="'+color+'", r.avatar="'+avatar+'" where u.id = '+id,function(err,results,fields) {
         if (err) {
             throw err;
         }
-        if(results.affectedRows === 1){
+        if(results.affectedRows){
             res.send(200,{
                 status : 1,
                 info : '修改成功'

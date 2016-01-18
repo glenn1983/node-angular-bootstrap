@@ -49,13 +49,19 @@ wishful:result.wishful,homeland:result.homeland,address:result.address,professio
         <div class="form-group">
             <label for="homeland" class="col-sm-2 control-label">家乡</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="homeland" name="homeland" ng-model="homeland" placeholder="家乡">
+                <select ng-options="p.key as p.name for p in hProvince " ng-model="Province1" ng-change="changeProvince(1)"><option value="">请选择省份</option></select>
+                <select ng-options="c.key as c.name for c in hCity " ng-model="City1" ng-change="changeCity(1)"><option value="">请选择城市</option></select>
+                <select ng-options="n.key as n.name for n in hCounty " ng-model="County1" ng-change="changeCounty(1)"><option value="">请选择区/县</option></select>
+                <input type="hidden" class="form-control" id="homeland" name="homeland" ng-model="homeland" placeholder="家乡">
             </div>
         </div>
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">现住址</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="address" name="address" ng-model="address"  placeholder="现住址">
+                <select ng-options="p.key as p.name for p in aProvince " ng-model="Province2" ng-change="changeProvince()"><option value="">请选择省份</option></select>
+                <select ng-options="c.key as c.name for c in aCity " ng-model="City2" ng-change="changeCity()"><option value="">请选择城市</option></select>
+                <select ng-options="n.key as n.name for n in aCounty " ng-model="County2" ng-change="changeCounty()"><option value="">请选择区/县</option></select>
+                <input type="hidden" class="form-control" id="address" name="address" ng-model="address"  placeholder="现住址">
             </div>
         </div>
         <div class="form-group">
