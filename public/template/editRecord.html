@@ -49,18 +49,14 @@ wishful:result.wishful,homeland:result.homeland,address:result.address,professio
         <div class="form-group">
             <label for="homeland" class="col-sm-2 control-label">家乡</label>
             <div class="col-sm-10">
-                <select ng-options="p.key as p.name for p in hProvince " ng-model="Province1" ng-change="changeProvince(1)"><option value="">请选择省份</option></select>
-                <select ng-options="c.key as c.name for c in hCity " ng-model="City1" ng-change="changeCity(1)"><option value="">请选择城市</option></select>
-                <select ng-options="n.key as n.name for n in hCounty " ng-model="County1" ng-change="changeCounty(1)"><option value="">请选择区/县</option></select>
+                <span region-directive region = "hRegion"></span>
                 <input type="hidden" class="form-control" id="homeland" name="homeland" ng-model="homeland" placeholder="家乡">
             </div>
         </div>
         <div class="form-group">
             <label for="address" class="col-sm-2 control-label">现住址</label>
             <div class="col-sm-10">
-                <select ng-options="p.key as p.name for p in aProvince " ng-model="Province2" ng-change="changeProvince()"><option value="">请选择省份</option></select>
-                <select ng-options="c.key as c.name for c in aCity " ng-model="City2" ng-change="changeCity()"><option value="">请选择城市</option></select>
-                <select ng-options="n.key as n.name for n in aCounty " ng-model="County2" ng-change="changeCounty()"><option value="">请选择区/县</option></select>
+                <span region-directive region="aRegion"></span>
                 <input type="hidden" class="form-control" id="address" name="address" ng-model="address"  placeholder="现住址">
             </div>
         </div>
@@ -79,7 +75,7 @@ wishful:result.wishful,homeland:result.homeland,address:result.address,professio
         <div class="form-group">
             <label for="avatar" class="col-sm-2 control-label">头像</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="avatar" name="avatar" ng-model="avatar" placeholder="头像">
+                <div img-directive ng-model="img" img="avatar" id="avatar"></div>
             </div>
         </div>
         <div class="form-group">
@@ -91,4 +87,9 @@ wishful:result.wishful,homeland:result.homeland,address:result.address,professio
             </div>
         </div>
     </form>
+</div>
+<div id="upimg" style="display:none;">
+    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" id="upfile"/>
+    <iframe name="myIframe" id="myIframe"></iframe>
+    <form action="/image/upload" method='post' enctype='multipart/form-data' target="myIframe" id="upForm"></form>
 </div>

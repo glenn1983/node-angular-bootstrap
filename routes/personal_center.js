@@ -4,16 +4,19 @@ var sqlHelper = require('../tools/sqlHelper');
 var verifi = require('../tools/verification');
 /* GET 方式获取跟人中心初始化数据. */
 router.get('/', function(req, res, next) {
-    var id = req.param('id'),
-        type = req.param('type');
+    var id = req.query.id,
+        type = req.query.type;
     sqlHelper.query('SELECT * FROM user as u,user_record as r where u.id = r.user_id and u.id = '+id,function(err,results,fields) {
         if (err) {
             throw err;
         }
         var result = results[0];
         if (results.length) {
-            console.log(result);
-            res.render('personal_center', { title:'个人中心',nickname:result.nickname,id:result.id,QQ:result.QQ,motto:result.motto,salary:result.salary,orientation:result.orientation,interest:result.interest,wishful:result.wishful,homeland:result.homeland,address:result.address,profession:result.profession,color:result.color,avatar:result.avatar});
+            var homeland = JSON.parse(result.homeland),
+                address = JSON.parse(result.address),
+                region1 = homeland.pn+'-'+homeland.cn+'-'+homeland.nn,
+                region2 = address.pn+'-'+address.cn+'-'+address.nn;
+                res.render('personal_center', { title:'个人中心',nickname:result.nickname,id:result.id,QQ:result.QQ,motto:result.motto,salary:result.salary,orientation:result.orientation,interest:result.interest,wishful:result.wishful,homeland:region1,address:region2,profession:result.profession,color:result.color,avatar:result.avatar});
         }else{
             sqlHelper.query('insert into user_record set user_id = '+id,function(err,results,fields){
                 if (err) {
@@ -27,6 +30,36 @@ router.get('/', function(req, res, next) {
     });
 });
 
+//编辑时请求数据
+
+router.get('/get_record', function(req, res, next) {
+    var id = req.query.id
+    if(id) {
+        sqlHelper.query('SELECT * FROM user as u,user_record as r where u.id = r.user_id and u.id = ' + id, function (err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results.length) {
+                var result = results[0];
+                var homeland = JSON.parse(result.homeland),
+                    address = JSON.parse(result.address),
+                    region1 = homeland.pn + '-' + homeland.cn + '-' + homeland.nn,
+                    region2 = address.pn + '-' + address.cn + '-' + address.nn;
+                res.send(200, {
+                    status: 1,
+                    info: '查询成功',
+                    data: { title: '个人中心', nickname: result.nickname, id: result.id, QQ: result.QQ, motto: result.motto, salary: result.salary, orientation: result.orientation, interest: result.interest, wishful: result.wishful, homeland: result.homeland, address: result.address, profession: result.profession, color: result.color, avatar: result.avatar}
+                });
+            }
+        });
+    }else{
+        res.send(200, {
+            status: 0,
+            info: '未获取到id',
+            data: { title: '个人中心',nickname:'', id:'',QQ:'',motto:'',salary:'',orientation:'',interest:'',wishful:'',homeland:'',address:'',profession:'',color:'',avatar:''}
+        });
+    }
+});
 router.post('/record', function(req, res, next) {
     var id = req.param('id'),
         QQ = req.param('QQ'),
@@ -42,7 +75,7 @@ router.post('/record', function(req, res, next) {
         avatar = req.param('avatar'),
         nickname = req.param('nickname');
     sqlHelper.query('update user u INNER JOIN user_record r ON u.id = r.user_id set u.nickname = "'+nickname+'", r.QQ="'+QQ+'", r.motto="'+motto+'", r.salary="'+salary+'", r.orientation="'+orientation+'", r.interest="'+interest+'", r.wishful="'+wishful
-        +'", r.homeland="'+homeland+'", r.address="'+address+'", r.profession="'+profession+'", r.color="'+color+'", r.avatar="'+avatar+'" where u.id = '+id,function(err,results,fields) {
+        +'", r.homeland=\''+homeland+'\', r.address=\''+address+'\', r.profession="'+profession+'", r.color="'+color+'", r.avatar="'+avatar+'" where u.id = '+id,function(err,results,fields) {
         if (err) {
             throw err;
         }

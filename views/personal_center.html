@@ -26,7 +26,7 @@
                 <tr><td>现住址</td><td><%=address||'尚未创建'%></td></tr>
                 <tr><td>职业</td><td><%=profession||'尚未创建'%></td></tr>
                 <tr><td>喜欢的颜色</td><td><%=color||'尚未创建'%></td></tr>
-                <tr><td>头像</td><td><%=avatar||'尚未创建'%></td></tr>
+                <tr><td>头像</td><td><img width="100" height="100" src="<%=avatar||'img/img.png'%>"/></td></tr>
             </tbody>
         </table>
         <input type="button" value="编辑用户资料" class="btn btn-info" ng-click="editUser()">
@@ -42,5 +42,6 @@
 <script src="js/service/param.js"></script>
 <script src="js/service/tools.js"></script>
 <script src="js/service/region.js"></script>
+<script src="js/service/directive.js"></script>
 <script src="js/personal_center.js"></script>
 </html>

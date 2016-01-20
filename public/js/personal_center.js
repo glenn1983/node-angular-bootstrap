@@ -7,7 +7,12 @@ app.config(['$routeProvider',function($routeProvider) {
         redirectTo: '/'
     });
 }]);
-app.controller('personalController',['$scope','$location','$cookieStore','userLog','$window',function($scope,$location,$cookieStore,userLog,$window){
+app.factory('dataService',function(){
+    return {
+        dataList : {}
+    }
+});
+app.controller('personalController',['$scope','$location','$cookieStore','userLog','$window','userService','dataService',function($scope,$location,$cookieStore,userLog,$window,userService,dataService){
     var isLogin = $cookieStore.get('login');
     $scope.background = '';
     if(isLogin !== userLog.thisDate()){
@@ -17,57 +22,40 @@ app.controller('personalController',['$scope','$location','$cookieStore','userLo
         $window.location.href = url;
     }
     $scope.editUser = function () {
-        $location.path('/edit');
+        userService.recordList({'id':$cookieStore.get('id')}).then(function(data){
+            if(data.status){
+                dataService.dataList= data.data;
+                $location.path('/edit');
+            }
+        });
     }
 }]);
-app.controller('editRecordController',['$scope','$location','userLog','$cookieStore','userService','$location','regionService',function($scope,$location,userLog,$cookieStore,userService,$location,regionService){
+app.controller('editRecordController',['$scope','$location','userLog','$cookieStore','userService','$window','dataService',function($scope,$location,userLog,$cookieStore,userService,$window,dataService){
     $scope.cancel = function () {
         $location.path('/');
-    }
-    $scope.homelandArea = {
-        province : '',
-        city : '',
-        county : ''
-    };
-    $scope.addressArea = {
-        province : '',
-        city : '',
-        county : ''
-    };
-    $scope.aProvince = regionService.province(),
-    $scope.aCity = [{id:'',name:'',key:''}],
-    $scope.aCounty = [{id:'',name:'',key:''}];
-    $scope.hProvince = regionService.province(),
-    $scope.hCity = [{id:'',name:'',key:''}],
-    $scope.hCounty = [{id:'',name:'',key:''}];
-    $scope.changeProvince = function(i){
-        if(i){
-            $scope.homelandArea.province = $scope.Province1;
-            $scope.hCity = regionService.city($scope.Province1);
-        }else{
-            $scope.addressArea.province = $scope.Province1;
-            $scope.hCity = regionService.city($scope.Province1);
-        }
-    }
-    $scope.changeCity = function(i){
-        if(i){
-            $scope.homelandArea.city = $scope.City1;
-            $scope.hCounty = regionService.county($scope.Province1,$scope.City1);
-        }else{
-            $scope.homelandArea.city = $scope.City1;
-            $scope.hCounty = regionService.county($scope.Province1,$scope.City1);
-        }
-    }
-    $scope.changeCounty = function(i){
-        if(i){
-            $scope.homelandArea.county = $scope.County1;
-        }else{
-            $scope.homelandArea.county = $scope.County1;
-        }
     }
     /*
      *id,QQ,motto,salary,orientation,interest,wishful,,homeland,address,profession,color,avatar
      * */
+    var dataList = dataService.dataList;
+    if(dataList.homeland){
+        $scope.nickname = dataList.nickname,
+        $scope.QQ = dataList.QQ,
+        $scope.motto = dataList.motto,
+        $scope.salary = dataList.salary,
+        $scope.orientation = dataList.orientation,
+        $scope.interest = dataList.interest,
+        $scope.wishful = dataList.wishful,
+        $scope.homeland = dataList.homeland,
+        $scope.address = dataList.address,
+        $scope.profession = dataList.profession,
+        $scope.color = dataList.color,
+        $scope.avatar = dataList.avatar;
+        $scope.hRegion = dataList.homeland || '{"p":"","c":"","n":"","pn":"","cn":"","nn":""}';
+        $scope.aRegion = dataList.address || '{"p":"","c":"","n":"","pn":"","cn":"","nn":""}';
+    }else{
+        $location.path('/');
+    }
     var recordData= {
         id : $cookieStore.get('id'),
        nickname:$scope.nickname||'',
@@ -93,8 +81,8 @@ app.controller('editRecordController',['$scope','$location','userLog','$cookieSt
             orientation : $scope.orientation||'',
             interest : $scope.interest||'',
             wishful : $scope.wishful||'',
-            homeland : $scope.homeland||'',
-            address : $scope.address||'',
+            homeland : $scope.hRegion||'',
+            address : $scope.aRegion||'',
             profession : $scope.profession||'',
             color : $scope.color||'',
             avatar : $scope.avatar||''
@@ -103,6 +91,7 @@ app.controller('editRecordController',['$scope','$location','userLog','$cookieSt
             if(data.status === 1){
                 alert('修改成功！');
                 $location.path('/');
+                $window.location.reload('/');
             }
         });
     }

@@ -114,6 +114,6 @@ app.controller('shopListController',['$scope','$location','$cookieStore','userLo
         $location.path('/login');
     }
     $scope.userLink = function(i){
-        return 'personal_center?id='+userId+'&type='+i;
+        return 'personal_center?id='+userId+'&type='+i+'&path=1';
     }
 }]);

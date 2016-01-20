@@ -1,4 +1,4 @@
-app.factory('regionService',function(){
+app.directive('regionDirective',function(){
 var region = {
     provinces2: {
         region_id: "2",
@@ -14530,9 +14530,73 @@ var region = {
         return arr;
     }
     return {
-        region : region,
-        province : province,
-        city : city,
-        county : county
+        restrict : 'AECM',
+        template : '<div><select ng-options="p.key as p.name for p in province " ng-model="Province" ng-change="changeProvince()"><option value="">请选择省份</option></select>&nbsp;&nbsp;'
+                    +'<select ng-options="c.key as c.name for c in city " ng-model="City" ng-change="changeCity()"><option value="">请选择城市</option></select>&nbsp;&nbsp;'
+                    +'<select ng-options="n.key as n.name for n in county " ng-model="County" ng-change="changeCounty()"><option value="">请选择区/县</option></select></div>',
+        replace : true,
+        scope : {
+            areaName : '=region'
+        },
+        controller : function($scope, $element, $attrs){
+            $scope.province = province();
+            $scope.city = [{name:'',key:''}],
+            $scope.county = [{name:'',key:''}],
+            $scope.area = {
+                "p" : "",
+                "c" :"",
+                "n" : "",
+                "pn" : "",
+                "cn" : "",
+                "nn" : ""
+            };
+            $scope.changeProvince = function(){
+                var p = $scope.Province;
+                $scope.area = {
+                    "p" : "",
+                    "c" :"",
+                    "n" : "",
+                    "pn" : "",
+                    "cn" : "",
+                    "nn" : ""
+                };
+                $scope.city = city(p),
+                $scope.county = [{id:'',name:'',key:''}];
+            }
+            $scope.changeCity = function(){
+                var p = $scope.Province,
+                    c = $scope.City;
+                $scope.county = county(p,c);
+            }
+            $scope.changeCounty = function(){
+                $scope.area.county = $scope.County;
+                var p = $scope.Province,
+                c = $scope.City,
+                n = $scope.County,
+                pn = region[p].region_name,
+                cn = region[p].city[c].region_name,
+                nn = region[p].city[c].county[n].region_name;
+                $scope.area = {
+                    "p" : p,
+                    "c" :c,
+                    "n" : n,
+                    "pn" : pn,
+                    "cn" : cn,
+                    "nn" : nn
+                };
+                $scope.areaName = JSON.stringify($scope.area);
+            }
+            if($scope.areaName){
+                var areaJson = JSON.parse($scope.areaName);
+                if(typeof areaJson === 'object'){
+                    $scope.Province = areaJson.p;
+                    $scope.City = areaJson.c;
+                    $scope.County = areaJson.n;
+                    $scope.changeProvince();
+                    $scope.changeCity();
+                    $scope.changeCounty();
+                }
+            }
+        }
     }
 });
