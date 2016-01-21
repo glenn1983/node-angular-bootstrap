@@ -2,11 +2,25 @@ var express = require('express');
 var router = express.Router();
 var sqlHelper = require('../tools/sqlHelper');
 var verifi = require('../tools/verification');
-/* GET 方式获取跟人中心初始化数据. */
+/* GET 方式获取跟人中心、商家、用户管理的初始化数据. */
 router.get('/', function(req, res, next) {
     var id = req.query.id,
         type = req.query.type;
-    sqlHelper.query('SELECT * FROM user as u,user_record as r where u.id = r.user_id and u.id = '+id,function(err,results,fields) {
+        verifi.hasLogin(req,res);
+        switch (type){
+            case "1":
+                myInfo(id,res);
+                break;
+            case  "2":
+                res.render('business', { title: '商家'});
+                break;
+            default: myInfo(id,res);
+        }
+});
+
+//个人信息初始化
+function myInfo(id,res){
+     sqlHelper.query('SELECT * FROM user as u,user_record as r where u.id = r.user_id and u.id = '+id,function(err,results,fields) {
         if (err) {
             throw err;
         }
@@ -16,7 +30,7 @@ router.get('/', function(req, res, next) {
                 address = JSON.parse(result.address),
                 region1 = homeland.pn+'-'+homeland.cn+'-'+homeland.nn,
                 region2 = address.pn+'-'+address.cn+'-'+address.nn;
-                res.render('personal_center', { title:'个人中心',nickname:result.nickname,id:result.id,QQ:result.QQ,motto:result.motto,salary:result.salary,orientation:result.orientation,interest:result.interest,wishful:result.wishful,homeland:region1,address:region2,profession:result.profession,color:result.color,avatar:result.avatar});
+            res.render('personal_center', { title:'个人中心',nickname:result.nickname,id:result.id,QQ:result.QQ,motto:result.motto,salary:result.salary,orientation:result.orientation,interest:result.interest,wishful:result.wishful,homeland:region1,address:region2,profession:result.profession,color:result.color,avatar:result.avatar});
         }else{
             sqlHelper.query('insert into user_record set user_id = '+id,function(err,results,fields){
                 if (err) {
@@ -28,8 +42,23 @@ router.get('/', function(req, res, next) {
             });
         }
     });
-});
+}
 
+//商家信息展示，及编辑
+function business(id,res){
+    sqlHelper.query('SELECT * FROM user as u where u.id = '+id,function(err,results,fields) {
+        if (err) {
+            throw err;
+        }
+        var result = results[0];
+        if (results.length) {
+            res.setHeader("Set-Cookie", ['a=000']);
+            res.render('personal_center', { title:'商家中心'});
+        }else{
+
+        }
+    });
+}
 //编辑时请求数据
 
 router.get('/get_record', function(req, res, next) {

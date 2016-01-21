@@ -10,7 +10,6 @@ var users = require('./routes/users');
 var personal_center = require('./routes/personal_center');
 var image = require('./routes/image');
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html',require('ejs').__express);
