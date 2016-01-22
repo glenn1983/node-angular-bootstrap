@@ -52,7 +52,9 @@ function business(id,res){
         }
         var result = results[0];
         if (results.length) {
-            res.setHeader("Set-Cookie", ['a=000']);
+            if(result.limit === 1){
+                res.setHeader("Set-Cookie", ['business','1']);
+            }
             res.render('personal_center', { title:'商家中心'});
         }else{
 

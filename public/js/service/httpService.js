@@ -44,11 +44,32 @@ app.factory('userService',['$q','$http',function($q,$http){
         });
         return $d.promise;
     }
+
+    function sendInfo(url,data){//一次封装，终身受益
+        var $d = $q.defer();
+        if(data){
+            $http.post(url,data).success(function(data,status){
+                $d.resolve(data);
+            }).error(function(data,status){
+                $d.reject(data);
+            });
+            return $d.promise;
+        }else{
+            $http.get(url).success(function(data,status){
+                $d.resolve(data);
+            }).error(function(data,status){
+                $d.reject(data);
+            });
+            return $d.promise;
+        }
+    }
+
     return {
         'reg' : reg,
         'login' : login,
         'userInfo' : userInfo,
         'recordList' : recordList,
-        'record': record
+        'record': record,
+        'sendInfo' :sendInfo
     }
 }]);
