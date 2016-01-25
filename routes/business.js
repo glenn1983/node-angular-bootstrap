@@ -19,4 +19,18 @@ router.post('/create', function(req, res, next) {
         }
     });
 });
+router.post('/shopInfo',function(req,res,next){
+   var id = req.param('id');
+   sqlHelper.query('select id, user_id,shop_name,shop_type from user as u,shoplist as s where u.id = s.user_id and u.id = '+id,function(err,results,fields){
+        if(err){
+            res.send({status:0,info:'系统出现问题，请稍后重试'});
+        }
+       if(results.length){
+           var result = results[0];
+           res.send({status:1,info:'查找成功',data:result});
+       }else{
+           res.send({status:0,info:'没有该店铺'});
+       }
+   });
+});
 module.exports = router;

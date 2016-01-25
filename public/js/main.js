@@ -37,6 +37,7 @@ app.controller('loginController',['$scope','$location','$cookieStore','userLog',
             if(data.status){
                 $cookieStore.put('login',userLog.thisDate());
                 $cookieStore.put('id',data.id);
+                $cookieStore.put('business',data.limit);
                 $location.path('/');
             }else{
                 alert(data.msg);
