@@ -1,28 +1,50 @@
 <div class="container">
     <h1>专营<b class="text-justify">{{shop_type}}</b>的<b class="text-danger">{{shop_name}}</b>，创建商品</h1>
-    <form class="form-horizontal">
+    <form class="form-horizontal" name="goods_create" novalidate>
         <div class="form-group">
             <label for="goods_name" class="col-sm-2 control-label">商品名称：</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="goods_name" name="goods_name" ng-model="goods_name"  placeholder="商品" maxlength="20" required="">
+                <input type="text" class="form-control" id="goods_name" name="goods_name" ng-model="goods_name"  placeholder="商品" ng-minlength="8" maxlength="30" autocomplete="off" required=""  reg-rule="^[\u3400-\u9FFF][\u3400-\u9FFF\w\d]+$" >
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop" ng-messages="(goods_create.goods_name.$dirty||dirty) && goods_create.goods_name.$error"  ng-messages-multiple>
+                    <div ng-message="required">商品名称不能为空</div>
+                    <div ng-message="minlength">商品名称不能少于8个字</div>
+                    <div ng-message="checkingAvailability">商品名称只允许由中日韩语开头的中日韩英文及数字构成</div>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label for="price" class="col-sm-2 control-label">价格：</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="price" name="price" ng-model="price" placeholder="价格" required="">
+                <input type="number" class="form-control" id="price" name="price" ng-model="price" placeholder="价格" autocomplete="off" required=""  maxlength="7" >
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop" ng-messages="(goods_create.price.$dirty||dirty) && goods_create.price.$error"  ng-messages-multiple>
+                    <div ng-message="required">价格必须填写</div>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label for="old_price" class="col-sm-2 control-label">原价：</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="old_price" name="old_price" ng-model="old_price" placeholder="原价" required="">
+                <input type="number" class="form-control" id="old_price" name="old_price" ng-model="old_price" autocomplete="off" placeholder="原价" required="" maxlength="7">
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop" ng-messages="(goods_create.old_price.$dirty||dirty) && goods_create.old_price.$error"  ng-messages-multiple>
+                    <div ng-message="required">原价必须填写</div>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label for="stock" class="col-sm-2 control-label">库存：</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="stock" name="stock" ng-model="stock" placeholder="库存" required="">
+                <input type="number" class="form-control" id="stock" name="stock" ng-model="stock" placeholder="库存" autocomplete="off" required="">
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop" ng-messages="(goods_create.stock.$dirty||dirty) && goods_create.stock.$error"  ng-messages-multiple>
+                    <div ng-message="required">库存必须填写</div>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -32,6 +54,11 @@
                 <label><input type="checkbox" ng-click="funny(150)"> 150可乐豆</label><label><input type="checkbox" ng-click="funny(200)"> 200可乐豆</label><label><input type="checkbox" ng-click="funny(300)"> 300可乐豆</label>
                 <label><input type="checkbox" ng-click="funny(500)"> 500可乐豆</label><label><input type="checkbox" ng-click="funny(1000)"> 1000可乐豆</label>
             </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop">
+                    <div ng-show="dirty && !denomination.length">面额必选</div>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">有效期：</label>
@@ -40,11 +67,21 @@
                 <label><input type="checkbox" ng-click="life(10)"> 10天</label><label><input type="checkbox" ng-click="life(20)"> 20天</label><label><input type="checkbox" ng-click="life(30)"> 30天</label>
                 <label><input type="checkbox" ng-click="life(50)"> 50天</label><label><input type="checkbox" ng-click="life(100)"> 100天</label>
             </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop">
+                    <div ng-show="dirty && !validity.length">有效期必选</div>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="img" class="col-sm-2 control-label">商品图片：</label>
             <div class="col-sm-10">
                 <div img-directive ng-model="img" img="img" id="img"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-3 text-danger pdtop">
+                    <div ng-show="dirty && noupload">商品图片必须上传！</div>
+                </div>
             </div>
         </div>
         <div class="form-group">

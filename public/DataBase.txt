@@ -24,3 +24,6 @@
                           user_id (int 6)
                           shop_name(varchar 50)
                           shop_type (varchar 50)
+            good_list 表 ：id(主键 ，int 6 属性：unsigned,额外：auto_increment)
+                            shop_id (int 6)
+                            name (varchar )

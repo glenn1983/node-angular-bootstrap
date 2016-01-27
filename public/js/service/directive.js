@@ -5,7 +5,7 @@ app.directive('imgDirective',function(){
         scope : {
             img : '='
         },
-        template : '<div><img ng-src="{{img}}" width="100" height="100"/></div>',
+        template : '<div style="width: 100px;"><img ng-src="{{img}}" width="100" height="100"/></div>',
         link : function (scope, iElement, iAttrs,ngModel){
             var $ele = $(iElement);
             $ele.on('click',function(){
@@ -39,6 +39,25 @@ app.directive('imgDirective',function(){
             if(!$scope.img){
                 $scope.img = 'img/img.png'
             }
+        }
+    }
+});
+app.directive('regRule', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, ele, attrs, ngModel) {
+            var reg = new RegExp(attrs.regRule);
+            ngModel.$parsers.push(function(val) {
+                if (!val || val.length === 0) {
+                    return;
+                }
+                if(reg.test(val)){
+                    ngModel.$setValidity('checkingAvailability', true);
+                }else{
+                    ngModel .$setValidity('checkingAvailability', false);
+                }
+                return val;
+            })
         }
     }
 });

@@ -3,26 +3,28 @@
         <div class="form-group">
             <label for="shop_name" class="col-sm-2 control-label">店铺名称:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="shop_name" name="shop_name" ng-model="shop_name"  placeholder="店铺名称" ng-maxlength="20" ng-minlength="8" required reg-rule="^[\u3400-\u9FFF][\u3400-\u9FFF\d\w]+$">
+                <input type="text" class="form-control" id="shop_name" name="shop_name" ng-model="shop_name"  placeholder="店铺名称" ng-maxlength="20" ng-minlength="8" required reg-rule="^[\u3400-\u9FFF][\u3400-\u9FFF\d\w]+$" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2 text-danger" ng-messages="business_create.shop_name.$dirty && business_create.shop_name.$error" ng-messages-multiple>
+                <div ng-message="required">店铺名字不能为空</div>
+                <div ng-message="minlength">店铺名字不能少于8个字</div>
+                <div ng-message="maxlength">店铺名字不能多于20个字</div>
+                <div ng-message="checkingAvailability">店铺名称只能以中日韩字开头，名称可以使中日韩字字母数字</div>
             </div>
         </div>
         <div class="form-group">
             <label for="shop_type" class="col-sm-2 control-label">店铺类型:</label>
             <div class="col-sm-10">
-                <select class="form-control" id="shop_type" name="shop_type" ng-model="shop_type"  ng-change="selType()" placeholder="店铺类型" required>
+                <select class="form-control" id="shop_type" name="shop_type" ng-model="shop_type"  ng-change="selType()" placeholder="店铺类型" required autocomplete="off">
                     <option value="">——店铺类型——</option>
                     <option ng-repeat="t in typeList" value="{{t.id}}">{{t.name}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-10 col-sm-offset-2 text-danger" ng-messages="business_create.shop_name.$error" ng-messages-multiple>
-                <div ng-message="required">店铺名字不能为空</div>
-                <div ng-message="minlength">店铺名字不能少于8个字</div>
-                <div ng-message="maxlength">店铺名字不能多于20个字</div>
-                <div ng-message="checkingAvailability">店铺名称只能以中日韩字开头，名称可以使中日韩字字母数字</div>
-            </div>
-            <div class="col-sm-10 col-sm-offset-2 text-danger pdtop" ng-messages="business_create.shop_type.$error" ng-messages-multiple>
+            <div class="col-sm-10 col-sm-offset-2 text-danger pdtop" ng-messages="business_create.shop_type.$dirty && business_create.shop_type.$error" ng-messages-multiple>
                 <div ng-message="required">请选择店铺类型</div>
             </div>
         </div>

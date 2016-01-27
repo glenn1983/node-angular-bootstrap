@@ -21,9 +21,10 @@ router.post('/create', function(req, res, next) {
 });
 router.post('/shopInfo',function(req,res,next){
    var id = req.param('id');
-   sqlHelper.query('select id, user_id,shop_name,shop_type from user as u,shoplist as s where u.id = s.user_id and u.id = '+id,function(err,results,fields){
+   sqlHelper.query('select s.id, s.user_id,s.shop_name,s.shop_type from user as u,shoplist as s where u.id = s.user_id and u.id = '+id,function(err,results,fields){
         if(err){
             res.send({status:0,info:'系统出现问题，请稍后重试'});
+            return;
         }
        if(results.length){
            var result = results[0];
@@ -32,5 +33,17 @@ router.post('/shopInfo',function(req,res,next){
            res.send({status:0,info:'没有该店铺'});
        }
    });
+});
+router.post('/addGoods',function(req,res,next){
+    var id = req.body.id,
+        name = req.body.name,
+        price = req.body.price,
+        old_price = req.body.old_price,
+        stock = req.body.stock,
+        denomination = req.body.denomination,
+        validity = req.body.validity;
+    if(id&&name&&price&&old_price&&stock&&denomination&&denomination.length&&validity&&validity.length){
+
+    }
 });
 module.exports = router;

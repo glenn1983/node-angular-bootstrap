@@ -14,26 +14,8 @@ app.config(['$routeProvider',function($routeProvider) {
 app.factory('userName',function(){
     return {
         shop_name:'',
-        shop_type : ''
-    }
-});
-app.directive('regRule', function($http) {
-    return {
-        require: 'ngModel',
-        link: function(scope, ele, attrs, ngModel) {
-            var reg = new RegExp(attrs.regRule);
-            ngModel.$parsers.push(function(val) {
-                if (!val || val.length === 0) {
-                    return;
-                }
-                if(reg.test(val)){
-                    ngModel.$setValidity('checkingAvailability', true);
-                }else{
-                    ngModel .$setValidity('checkingAvailability', false);
-                }
-                return val;
-            })
-        }
+        shop_type : '',
+        shop_id : 0
     }
 });
 app.controller('createController',['$scope','$location','$cookieStore','userLog','userService','userName',function($scope,$location,$cookieStore,userLog,userService,userName){
@@ -74,8 +56,7 @@ app.controller('createController',['$scope','$location','$cookieStore','userLog'
 }]);
 app.controller('businessController',['$scope','$location','$cookieStore','userLog','userService','userName',function($scope,$location,$cookieStore,userLog,userService,userName){
     var isLogin = $cookieStore.get('login'),
-        userId = $cookieStore.get('id'),
-        busy = $cookieStore.get('business');
+        userId = $cookieStore.get('id');
     $scope.shop_name = userName.shop_name,
     $scope.shop_type = userName.shop_type,
     $scope.typeList = [
@@ -96,10 +77,15 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
     $scope.price = '',
     $scope.old_price = '',
     $scope.stock = '',
-    $scope.img = '';
+    $scope.img = '',
+    $scope.dirty = !1,
+    $scope.denomination = [],
+    $scope.validity = [],
+    $scope.noupload = !1;
     var denomination = [],
     validity = [];
     $scope.funny = function(n){
+        denomination = $scope.denomination;
         var index = -1;
         angular.forEach(denomination,function(value,i){
             if(value === n){
@@ -113,6 +99,7 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
         }
     },
     $scope.life = function(n){
+        validity = $scope.validity;
         var index = -1;
         angular.forEach(validity,function(value,i){
             if(value === n){
@@ -128,15 +115,36 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
     userService.sendInfo('business/shopInfo', {id: userId}).then(function (e) {
         if (e.status === 1) {
             var data = e.data;
+            $cookieStore.put('business', data.limit);
             angular.forEach($scope.typeList, function (value, i) {
                 if (value.id == data.shop_type) {
                     $scope.shop_name = data.shop_name,
-                    $scope.shop_type = value.name;
+                    $scope.shop_type = value.name,
+                    $scope.shop_id = data.id;
                 }
             });
         } else {
-                $location.path('/');
+                $location.path('/create');
         }
     });
+    $scope.save = function(){
+        $scope.dirty = !0;
+        $scope.noupload = $scope.img === 'img/img.png';
+        if($scope.goods_name && $scope.price && $scope.old_price && $scope.stock && $scope.img && $scope.validity.length && $scope.denomination.length){
+            userService.sendInfo('business/addGoods',{
+                id : $scope.shop_id,
+                name : $scope.goods_name,
+                price : $scope.price,
+                old_price : $scope.old_price,
+                stock : $scope.stock,
+                img : $scope.img,
+                denomination : $scope.denomination,
+                validity : $scope.validity
+            }).then(function(e){
+                if(e.status){
+                    toastr.success(e.info);
+                }
+            });
+        }
+    };
 }]);
-
