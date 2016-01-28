@@ -41,9 +41,29 @@ router.post('/addGoods',function(req,res,next){
         old_price = req.body.old_price,
         stock = req.body.stock,
         denomination = req.body.denomination,
-        validity = req.body.validity;
+        validity = req.body.validity,
+        img = req.body.img;
     if(id&&name&&price&&old_price&&stock&&denomination&&denomination.length&&validity&&validity.length){
-
+        sqlHelper.query('select id from shoplist where id = '+id,function(err,results,fields){
+            if(err){
+                res.send({status:0,info:'系统出现问题，请稍后重试'});
+                return;
+            }
+            if(results.length){
+                console.log(denomination.toString());
+                sqlHelper.query('insert into goods_list set shop_id ='+id+',goods_name="'+name+'",price='+price+',old_price='+old_price+',stock='+stock+',denomination="'+denomination.toString()+'",validity="'+validity.toString()+'",img="'+img+'"',function(err,results,fields){
+                    if(err){
+                        res.send({status:0,info:'系统出现问题，请稍后重试'});
+                        return;
+                    }
+                    if(results.affectedRows){
+                        res.send({status:1,info:'添加成功'});
+                    }
+                });
+            }else{
+                res.send({status:0,info:'店铺ID不正确！'});
+            }
+        });
     }
 });
 module.exports = router;

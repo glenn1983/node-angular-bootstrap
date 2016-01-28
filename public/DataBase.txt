@@ -19,11 +19,20 @@
                          address (varchar 100)
                          profession (varchar 20)
                          color (varchar 20)
-                         memo (varchar 200)
+                         avatar (varchar 300)
             shoplist表 ： id(主键 ，int 6 属性：unsigned,额外：auto_increment)
                           user_id (int 6)
                           shop_name(varchar 50)
                           shop_type (varchar 50)
+
+
+                          id&&name&&price&&old_price&&stock&&denomination&&validity
+
             good_list 表 ：id(主键 ，int 6 属性：unsigned,额外：auto_increment)
                             shop_id (int 6)
-                            name (varchar )
+                            goods_name (varchar 35)
+                            price (decimal 7)
+                            stock (int 6)
+                            denomination (varchar 50)
+                            validity (varchar 50);
+                            img (varchar 300 )

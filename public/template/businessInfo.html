@@ -39,7 +39,7 @@
         <div class="form-group">
             <label for="stock" class="col-sm-2 control-label">库存：</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="stock" name="stock" ng-model="stock" placeholder="库存" autocomplete="off" required="">
+                <input type="number" class="form-control" id="stock" name="stock" ng-model="stock" placeholder="库存" autocomplete="off" required="" maxlength="6">
             </div>
             <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-3 text-danger pdtop" ng-messages="(goods_create.stock.$dirty||dirty) && goods_create.stock.$error"  ng-messages-multiple>
@@ -50,9 +50,9 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">面额：</label>
             <div class="col-sm-10">
-                <label><input type="checkbox" ng-click="funny(50)"> 50可乐豆</label><label><input type="checkbox" ng-click="funny(80)"> 80可乐豆</label><label><input type="checkbox" ng-click="funny(100)"> 100可乐豆</label>
-                <label><input type="checkbox" ng-click="funny(150)"> 150可乐豆</label><label><input type="checkbox" ng-click="funny(200)"> 200可乐豆</label><label><input type="checkbox" ng-click="funny(300)"> 300可乐豆</label>
-                <label><input type="checkbox" ng-click="funny(500)"> 500可乐豆</label><label><input type="checkbox" ng-click="funny(1000)"> 1000可乐豆</label>
+                <label><input type="checkbox" ng-click="funny(50)" ng-checked="noSelect"> 50可乐豆</label><label><input type="checkbox" ng-click="funny(80)" ng-checked="noSelect"> 80可乐豆</label><label><input type="checkbox" ng-click="funny(100)" ng-checked="noSelect"> 100可乐豆</label>
+                <label><input type="checkbox" ng-click="funny(150)" ng-checked="noSelect"> 150可乐豆</label><label><input type="checkbox" ng-click="funny(200)" ng-checked="noSelect"> 200可乐豆</label><label><input type="checkbox" ng-click="funny(300)" ng-checked="noSelect"> 300可乐豆</label>
+                <label><input type="checkbox" ng-click="funny(500)" ng-checked="noSelect"> 500可乐豆</label><label><input type="checkbox" ng-click="funny(1000)" ng-checked="noSelect"> 1000可乐豆</label>
             </div>
             <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-3 text-danger pdtop">

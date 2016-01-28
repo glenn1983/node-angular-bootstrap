@@ -143,8 +143,20 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
             }).then(function(e){
                 if(e.status){
                     toastr.success(e.info);
+                    $scope.goods_name ='',
+                    $scope.price = '',
+                    $scope.old_price = '',
+                    $scope.stock = '',
+                    $scope.img = 'img/img.png',
+                    $scope.denomination = [],
+                    $scope.validity = [],
+                    $scope.dirty = !1;
+                    $location.path('/create');
                 }
             });
         }
     };
 }]);
+app.constructor('goods_listController',function(){
+
+});
