@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
                 myInfo(id,res);
                 break;
             case  "2":
-                res.render('business', { title: '商家'});
+                bussiness(id,res);
                 break;
             default: myInfo(id,res);
         }
@@ -46,14 +46,28 @@ function myInfo(id,res){
 
 //商家信息展示，及编辑
 function business(id,res){
-    sqlHelper.query('SELECT * FROM user as u where u.id = '+id,function(err,results,fields) {
+    var id = req.body.id;
+   sqlHelper.query('SELECT * FROM user as u where u.id = '+id,function(err,results,fields) {
         if (err) {
             throw err;
         }
         var result = results[0];
         if (results.length) {
             if(result.limit === 1){
-                res.setHeader("Set-Cookie", ['business','1']);
+                //res.setHeader("Set-Cookie", ['business','1']);
+                sqlHelper.query('select id, user_id,shop_name,shop_type from shoplist where user_id = '+id,function(err,results,fields){
+                    if(err){
+                        res.render('personal_center', { title:'商家中心'});
+                        return;
+                    }
+                    if(results.length){
+                        var result = results[0];
+                        res.setHeader("Set-Cookie", ['business=1','shop_id='+result.id,'shop_type='+result.shop_type,'shop_name='+result.shop_name]);
+                        res.render('personal_center', { title:'商家中心'});
+                    }else{
+                        res.render('personal_center', { title:'商家中心'});
+                    }
+                });
             }
             res.render('personal_center', { title:'商家中心'});
         }else{

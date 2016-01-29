@@ -7,17 +7,26 @@ app.config(['$routeProvider',function($routeProvider) {
             templateUrl: 'template/createBusiness.html',
             controller: 'createController'
         })
+    .when('/list',{
+        templateUrl : 'template/goods_list.html',
+        controller : 'goods_listController'
+    })
     .otherwise({
         redirectTo: '/'
     });
 }]);
-app.factory('userName',function(){
+app.factory('userName',['$cookieStore','userLog',function($cookieStore,userLog){
+    var userId = $cookieStore.get('id'),
+        login = $cookieStore.get('login'),
+        isLogin = (new Date().getTime()) - (new Date(login).getTime()) < 8.64e8;
     return {
         shop_name:'',
         shop_type : '',
-        shop_id : 0
+        shop_id : 0,
+        userId : userId,
+        isLogin : isLogin
     }
-});
+}]);
 app.controller('createController',['$scope','$location','$cookieStore','userLog','userService','userName',function($scope,$location,$cookieStore,userLog,userService,userName){
     var userId = $cookieStore.get('id');
     $scope.shop_name = '',
@@ -151,12 +160,13 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
                     $scope.denomination = [],
                     $scope.validity = [],
                     $scope.dirty = !1;
-                    $location.path('/create');
+                    $location.path('/list');
                 }
             });
         }
     };
 }]);
-app.constructor('goods_listController',function(){
-
-});
+app.controller('goods_listController',['userService','$scope','$location','userName',function(userService,$scope,$location,userName){
+    console.log(userName);
+    //userService.sendInfo();
+}]);
