@@ -66,4 +66,18 @@ router.post('/addGoods',function(req,res,next){
         });
     }
 });
+router.post('/goods_list',function(req,res,next){
+    var id = req.body.id;
+    sqlHelper.query('select * from goods_list where shop_id = '+id,function(err,results,fields){
+        if(err){
+            res.send({status:0,info:'系统出现问题，请稍后重试'});
+            return;
+        }
+        if(results.length){
+            res.send({status:1,info:'查找成功',data:results});
+        }else{
+            res.send({status:0,info:'没有商品'});
+        }
+    });
+});
 module.exports = router;

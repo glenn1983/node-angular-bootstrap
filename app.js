@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var personal_center = require('./routes/personal_center');
 var business = require('./routes/business');
 var image = require('./routes/image');
+var ajax_all = require('./routes/ajax/ajax_all')
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +30,8 @@ app.use('/users', users);
 app.use('/image',image);
 app.use('/personal_center',personal_center);
 app.use('/business',business);
+app.use('/ajax_all',ajax_all);
+app.set("jsonp callback", true);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('没有找到您请求的页面');

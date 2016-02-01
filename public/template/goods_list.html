@@ -1,0 +1,8 @@
+<table class="table table-bordered">
+    <tr>
+        <th>编号</th><th>商品名称</td><th>价格（元）</th><th>原价（元）</th><th>库存（件）</th><th>面额（可乐豆）</th><th>有效期（天）</th><th>图片</th>
+    </tr>
+    <tr ng-repeat="g in goods_list">
+        <td>{{ g.id}}</td><td>{{ g.goods_name}}</td><td>{{ g.price}}</td><td>{{ g.old_price}}</td><td>{{ g.stock}}</td><td>{{ g.denomination}}</td><td>{{ g.validity}}</td><td><img width="100" height="100" ng-src="{{ g.img}}"/></td>
+    </tr>
+</table>

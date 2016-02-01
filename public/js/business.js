@@ -21,14 +21,14 @@ app.factory('userName',['$cookieStore','userLog',function($cookieStore,userLog){
         isLogin = (new Date().getTime()) - (new Date(login).getTime()) < 8.64e8;
     return {
         shop_name:'',
-        shop_type : '',
-        shop_id : 0,
+        shop_type : $cookieStore.get('shop_type'),
+        shop_id : $cookieStore.get('shop_id'),
         userId : userId,
         isLogin : isLogin
     }
 }]);
 app.controller('createController',['$scope','$location','$cookieStore','userLog','userService','userName',function($scope,$location,$cookieStore,userLog,userService,userName){
-    var userId = $cookieStore.get('id');
+    var userId = userName.userId;
     $scope.shop_name = '',
     $scope.typeList = [
         {id:1,name:'男装'},
@@ -64,8 +64,8 @@ app.controller('createController',['$scope','$location','$cookieStore','userLog'
     }
 }]);
 app.controller('businessController',['$scope','$location','$cookieStore','userLog','userService','userName',function($scope,$location,$cookieStore,userLog,userService,userName){
-    var isLogin = $cookieStore.get('login'),
-        userId = $cookieStore.get('id');
+    var isLogin = userName.isLogin,
+        userId = userName.userId;
     $scope.shop_name = userName.shop_name,
     $scope.shop_type = userName.shop_type,
     $scope.typeList = [
@@ -81,7 +81,7 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
         {id:10,name:'游戏'},
         {id:11,name:'学习'}
     ],
-    $scope.shop_id = '',
+    $scope.shop_id = userName.shop_id,
     $scope.goods_name = '',
     $scope.price = '',
     $scope.old_price = '',
@@ -93,6 +93,11 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
     $scope.noupload = !1;
     var denomination = [],
     validity = [];
+    angular.forEach($scope.typeList, function (value, i) {
+        if (value.id == $scope.shop_type) {
+            $scope.shop_type = value.name
+        }
+    });
     $scope.funny = function(n){
         denomination = $scope.denomination;
         var index = -1;
@@ -121,21 +126,6 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
             validity.push(n);
         }
     };
-    userService.sendInfo('business/shopInfo', {id: userId}).then(function (e) {
-        if (e.status === 1) {
-            var data = e.data;
-            $cookieStore.put('business', data.limit);
-            angular.forEach($scope.typeList, function (value, i) {
-                if (value.id == data.shop_type) {
-                    $scope.shop_name = data.shop_name,
-                    $scope.shop_type = value.name,
-                    $scope.shop_id = data.id;
-                }
-            });
-        } else {
-                $location.path('/create');
-        }
-    });
     $scope.save = function(){
         $scope.dirty = !0;
         $scope.noupload = $scope.img === 'img/img.png';
@@ -167,6 +157,13 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
     };
 }]);
 app.controller('goods_listController',['userService','$scope','$location','userName',function(userService,$scope,$location,userName){
-    console.log(userName);
-    //userService.sendInfo();
+    var shop_id = userName.shop_id,
+        goods_list = [];
+    userService.sendInfo('/business/goods_list',{id:shop_id}).then(function(data){
+        if(data.status){
+            goods_list = data.data;
+        }else{
+            toastr.error(data.info);
+        }
+    });
 }]);
