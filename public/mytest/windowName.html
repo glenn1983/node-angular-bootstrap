@@ -6,10 +6,34 @@
     <link href="/img/favicon.ico" rel="shortcut icon">
 </head>
 <body>
-这个页面没必要有内容，只是用来实现window.name的跨域
-</body>
-<script src="/js/Lib/jquery.3.0-alpha.js"></script>
+<script src="../js/Lib/jquery.3.0-alpha.js"></script>
 <script>
-    window.name = "{info:'搜索成功',status:'1',data : [{name:'呵呵'}]}";
+    window.onmessage = function(e){
+        var ev = e || event,
+             str = ev.data;
+        if(str){
+            var o = typeof str === "string" ? JSON.parse(str) : str;
+            $.ajax(o).then(function(e){
+                var strResult = JSON.stringify(e);
+                window.parent.postMessage(strResult,"*")
+            });
+        }
+    }
+    /*原生js 实现ajax*/
+     var XHR = null;
+     if(XMLHttpRequest){
+        XHR = new XMLHttpRequest();
+     }else{
+        XHR = new ActiveXObject("Microsoft.XMLHTTP");
+     }
+     XHR.open('post','/ajax_all/goods_list_post_message',true);
+     XHR.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+     XHR.send('id= 6');
+     XHR.onreadystatechange = function(){
+     if (XHR.readyState==4 && XHR.status==200){
+        document.querySelector('body').innerHTML = XHR.responseText;
+     }
+     }
 </script>
+</body>
 </html>
