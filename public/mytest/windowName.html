@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <title>window.name 跨域</title>
     <link href="/img/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="../css/demo.css" />
 </head>
 <body>
+<div id="ajax"></div>
+<div id="con">
+    <div class="imglist">
+        <img src="../css/img/skyCity1.jpg" alt="1" width="800" height="400"/>
+        <img src="../css/img/skyCity2.jpg" alt="2" width="800" height="400"/>
+        <img src="../css/img/skyCity3.jpg" alt="3" width="800" height="400"/>
+        <img src="../css/img/skyCity4.jpg" alt="4" width="800" height="400"/>
+        <img src="../css/img/skyCity5.jpg" alt="5" width="800" height="400"/>
+        <img src="../css/img/skyCity6.jpg" alt="6" width="800" height="400"/>
+        <img src="../css/img/skyCity7.jpg" alt="7" width="800" height="400"/>
+    </div>
+    <div class="direction left show"></div>
+    <div class="direction right show"></div>
+</div>
 <script src="../js/Lib/jquery.3.0-alpha.js"></script>
 <script>
     window.onmessage = function(e){
@@ -20,20 +35,69 @@
         }
     }
     /*原生js 实现ajax*/
-     var XHR = null;
-     if(XMLHttpRequest){
-        XHR = new XMLHttpRequest();
-     }else{
-        XHR = new ActiveXObject("Microsoft.XMLHTTP");
-     }
-     XHR.open('post','/ajax_all/goods_list_post_message',true);
-     XHR.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-     XHR.send('id= 6');
-     XHR.onreadystatechange = function(){
-     if (XHR.readyState==4 && XHR.status==200){
-        document.querySelector('body').innerHTML = XHR.responseText;
-     }
-     }
+    ~function(){
+        var XHR = null;
+        if(XMLHttpRequest){
+            XHR = new XMLHttpRequest();
+        }else{
+            XHR = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        XHR.open('post','/ajax_all/goods_list_post_message',true);
+        XHR.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        XHR.send('id= 6');
+        XHR.onreadystatechange = function(){
+            if (XHR.readyState==4 && XHR.status==200){
+                document.querySelector('#ajax').innerHTML = XHR.responseText;
+            }
+        }
+    }();
+    +function(){
+        var con = $('#con'),
+        imglist = con.children('div.imglist'),
+        img = imglist.children('img'),
+        imgwidth = img.eq(0).width(),
+        imglen = img.length;
+        imglist.width(imglen*imgwidth),
+        left = 0,
+        timer = setInterval(function(){
+            left = imgwidth;
+            /*imglist.animate({left:-left},'slow',function(){
+                imglist.css({'left':0}).children('img').last().after(imglist.children('img').first());
+            });*/
+            move(left);
+        },3000);
+        var direction = $('#con .direction');
+        con.hover(function(){
+            direction.removeClass('show');
+            clearTimeout(timer);
+        },function(){
+            direction.addClass('show');
+            timer = setInterval(function(){
+                left = imgwidth;
+                move(left);
+            },3000);
+        });
+        direction.on('click',function(){
+            var $this = $(this);
+            if($this.hasClass('right')){
+                left = -imgwidth;
+            }else{
+                left = imgwidth;
+            }
+            move(left);
+        });
+        function move(d){
+            var  left = d;
+            if(left < 0){
+                imglist.children('img').first().before(imglist.children('img').last()).end().end().css({'left':left});
+                imglist.animate({left:0},'slow');
+            }else{
+                imglist.animate({left:-left},'slow',function(){
+                    imglist.css({'left':0}).children('img').last().after(imglist.children('img').first());
+                });
+            }
+        }
+    }()
 </script>
 </body>
 </html>
