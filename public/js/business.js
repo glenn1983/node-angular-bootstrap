@@ -90,7 +90,10 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
     $scope.dirty = !1,
     $scope.denomination = [],
     $scope.validity = [],
-    $scope.noupload = !1;
+    $scope.noupload = !1,
+    $scope.goods_list = function(){
+        $location.path('/list');
+    };
     var denomination = [],
     validity = [];
     angular.forEach($scope.typeList, function (value, i) {
@@ -159,9 +162,12 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
 app.controller('goods_listController',['userService','$scope','$location','userName',function(userService,$scope,$location,userName){
     var shop_id = userName.shop_id,
         goods_list = [];
+    $scope.add_goods = function(){
+        $location.path('/');
+    }
     userService.sendInfo('/business/goods_list',{id:shop_id}).then(function(data){
         if(data.status){
-            goods_list = data.data;
+            $scope.goods_list = data.data;
         }else{
             toastr.error(data.info);
         }
