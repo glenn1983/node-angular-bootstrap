@@ -30,6 +30,12 @@ app.controller('loginController',['$scope','$location','$cookieStore','userLog',
             $location.path('/register');
         }
     };
+    $scope.key_login = function(e){
+        var code = e.charCode;
+        if(code === 13){
+            $scope.login();
+        }
+    }
     $scope.login = function(){
         username = $scope.username,
         password = $scope.password;
@@ -117,4 +123,7 @@ app.controller('shopListController',['$scope','$location','$cookieStore','userLo
     $scope.userLink = function(i){
         return 'personal_center?id='+userId+'&type='+i;
     }
+    var img_logo = document.querySelector('img.img-circle'),
+        dom_img = angular.element(img_logo);//先引入jquery 使用angular.element 就可以像使用$一样了
+    //dom_img.css({width:500});
 }]);

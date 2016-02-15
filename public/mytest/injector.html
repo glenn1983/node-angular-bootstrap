@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>平时的练习</title>
+    <link href="/img/favicon.ico" rel="shortcut icon">
+</head>
+<body>
+    <div id="log">
+
+    </div>
+</body>
+<script src="../js/Lib/angular.min.js"></script>
+<script>
+    angular.element(document).ready(function(){
+        angular.injector(["ng"]).invoke(function($http){
+            var log = document.querySelector('#log');
+            //angular.element(log).text($http);
+            $http.post('/business/goods_list',{id:6}).then(function(data){
+                console.log(data);
+            });
+        });
+    });
+</script>
+</html>
