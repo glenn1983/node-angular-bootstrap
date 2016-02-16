@@ -13,11 +13,14 @@
 <script src="../js/Lib/angular.min.js"></script>
 <script>
     angular.element(document).ready(function(){
-        angular.injector(["ng"]).invoke(function($http){
+        angular.injector(["ng"]).invoke(function($http,dateFilter){
             var log = document.querySelector('#log');
             //angular.element(log).text($http);
             $http.post('/business/goods_list',{id:6}).then(function(data){
-                console.log(data);
+                var data = data.data.data,
+                    time = new Date(),
+                    formate = 'yy-m-dd h:mm:s';
+                console.log(data,dateFilter(time,formate));
             });
         });
     });
