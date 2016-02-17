@@ -63,4 +63,16 @@ router.post('/userInfo',function(req,res,next){
         }
     });
 });
+router.get('/goods_list',function(req,res,next){
+    sqlHelper.query('select s.shop_name,g.id,g.goods_name,g.price,g.old_price,g.stock,g.denomination,g.validity,g.img from goods_list as g ,shoplist as s where g.shop_id = s.id ',function(err,results,fields){
+        if(err){
+            res.send(200,{status:0,info:'系统错误，请稍后重试',data:[]});
+        }
+        if(results.length){
+            res.send(200,{status : 1,info:'查询成功',data:results});
+        }else{
+            res.send(200,{status : 1,info:'没有数据',data:[]});
+        }
+    });
+});
 module.exports = router;

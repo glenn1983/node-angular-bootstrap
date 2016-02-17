@@ -54,7 +54,7 @@ app.controller('editRecordController',['$scope','$location','userLog','$cookieSt
         $scope.hRegion = dataList.homeland || '{"p":"","c":"","n":"","pn":"","cn":"","nn":""}';
         $scope.aRegion = dataList.address || '{"p":"","c":"","n":"","pn":"","cn":"","nn":""}';
     }else{
-        $location.path('/');
+        //$location.path('/');
     }
     var recordData= {
         id : $cookieStore.get('id'),

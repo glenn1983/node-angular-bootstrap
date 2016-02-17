@@ -7,11 +7,20 @@ a {
   color: #00B7FF;
   cursor:pointer
 }
+.border_1{
+    border:1px solid #afd9ee;
+}
+.radius_3{
+    border-radius: 3px;
+}
 .pdtop{
     padding-top: 4px;
 }
 .mtop{
     margin-top: 20px;
+}
+.mbottom{
+    margin-bottom: 10px;
 }
 .blkinlin{
     display: inline-block;
@@ -20,6 +29,7 @@ a {
     float: none;
 }
 .h100p{height: 100px;}
+.w100p{width: 100%;}
 .lineH80{
     line-height: 80px;
 }
@@ -49,6 +59,9 @@ a {
 }
 .bdred{
     border: 1px solid #67b168;
+}
+.listbg{
+    background: #E1F3FD;
 }
 .conbg{/*主体背景颜色*/
     background: #F8E590;

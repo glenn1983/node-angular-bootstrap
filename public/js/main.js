@@ -117,7 +117,10 @@ app.controller('shopListController',['$scope','$location','$cookieStore','userLo
     });
     $scope.exit = function(){
         $cookieStore.remove('login'),
-        $cookieStore.remove('id');
+        $cookieStore.remove('id'),
+        $cookieStore.remove('shop_name'),
+        $cookieStore.remove('shop_type'),
+        $cookieStore.remove('shop_id');
         $location.path('/login');
     }
     $scope.userLink = function(i){
@@ -126,4 +129,9 @@ app.controller('shopListController',['$scope','$location','$cookieStore','userLo
     var img_logo = document.querySelector('img.img-circle'),
         dom_img = angular.element(img_logo);//先引入jquery 使用angular.element 就可以像使用$一样了
     //dom_img.css({width:500});
+    userService.sendInfo('/goods_list').then(function(e){
+        if(e.status){
+            $scope.goods_list = e.data;
+        }
+    });
 }]);

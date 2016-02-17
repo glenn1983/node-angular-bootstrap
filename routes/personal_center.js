@@ -27,9 +27,13 @@ function myInfo(id,res){
         var result = results[0];
         if (results.length) {
             var homeland = JSON.parse(result.homeland),
-                address = JSON.parse(result.address),
+                address = JSON.parse(result.address);
+            var  region1 = '',
+                region2 = '';
+            if(homeland){
                 region1 = homeland.pn+'-'+homeland.cn+'-'+homeland.nn,
                 region2 = address.pn+'-'+address.cn+'-'+address.nn;
+            }
             res.render('personal_center', { title:'个人中心',nickname:result.nickname,id:result.id,QQ:result.QQ,motto:result.motto,salary:result.salary,orientation:result.orientation,interest:result.interest,wishful:result.wishful,homeland:region1,address:region2,profession:result.profession,color:result.color,avatar:result.avatar});
         }else{
             sqlHelper.query('insert into user_record set user_id = '+id,function(err,results,fields){
@@ -66,12 +70,14 @@ function business(id,res){
                         res.setHeader("Set-Cookie", ['business='+this_business,'shop_id='+result.id,'shop_type='+result.shop_type,'shop_name='+encodeURI(result.shop_name)]);
                         res.render('business', { title:'商家中心',shop_name:result.shop_name});
                     }else{
-                        res.render('business', { title:'商家中心'});
+                        res.render('business', { title:'商家中心',shop_name:''});
                     }
                 });
+            }else{
+                res.render('business', { title:'商家中心',shop_name:''});
             }
         }else{
-
+            res.render('business', { title:'商家中心',shop_name:''});
         }
     });
 }
@@ -87,9 +93,13 @@ router.get('/get_record', function(req, res, next) {
             if (results.length) {
                 var result = results[0];
                 var homeland = JSON.parse(result.homeland),
-                    address = JSON.parse(result.address),
+                    address = JSON.parse(result.address);
+                var region1 = '',
+                    region2 = '';
+                if(homeland){
                     region1 = homeland.pn + '-' + homeland.cn + '-' + homeland.nn,
                     region2 = address.pn + '-' + address.cn + '-' + address.nn;
+                }
                 res.send(200, {
                     status: 1,
                     info: '查询成功',

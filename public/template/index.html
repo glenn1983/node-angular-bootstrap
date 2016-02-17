@@ -1,4 +1,4 @@
-<div class="container" ng-class="background">
+<div class="container border_1 radius_3">
     <div class="row">
         <a class="col-lg-2 text-danger pdtop">{{userInfo.nickname}}</a>
         <a class="col-lg-2 text-danger pdtop"ng-click="exit()">退出</a>
@@ -8,6 +8,19 @@
             <img class="img-circle" src="./img/logo.jpg">
         </div>
         <div class="col-lg-4 col-lg-offset-4 lineH80 fSize24 fFamilykai fItalic fColorT mtop">周正义的个人网站，我什么都不卖，只是让你看看</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 mbottom" ng-repeat="g in goods_list">
+            <div class="col-sm-11  listbg {{ $index%2 === 0 && 'col-sm-offset-1'}} border_1 radius_3">
+                 <section>
+                    <img src="" ng-src="{{g.img}}" class="w100p" />
+                    <div class="col-sm-12 pdtop">
+                        <p>现价：<b class="fColorT fSize18">€{{g.price}}</b>&nbsp;&nbsp;&nbsp;原价：€<del>{{g.old_price}}</del></p>
+                        <p ><b>{{g.goods_name}}</b> &nbsp;&nbsp;&nbsp;店铺：<a href="{{g.shop_id}}">{{g.shop_name}}</a></p>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-4 fterdiv bdred">
