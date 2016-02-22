@@ -13,7 +13,24 @@ router.post('/create', function(req, res, next) {
             throw err;
         }
         if(results.affectedRows){
-           res.send({status:1,info:'创建成功'});
+           sqlHelper.query('update user as u set u.limit = 1 where u.id='+id,function(err,result,fields){
+                if(err){
+                    res.send({status:0,info:'操作数据库失败，请稍后重试！'});
+                    return
+                }
+               if(results.affectedRows){
+                   sqlHelper.query('select * from shoplist as s where s.user_id = '+id,function(err,results,fields){
+                       if(err){
+                           res.send({status : 0,info:'创建存在问题，请稍后'});
+                       }
+                       if(results.length){
+                           res.send({status:1,info:'创建成功',data:results});
+                       }else{
+                           res.send({status:0,info:'创建未成功'});
+                       }
+                   });
+               }
+           });
         }else{
             res.send({status:0,info:'创建失败'});
         }
@@ -42,16 +59,16 @@ router.post('/addGoods',function(req,res,next){
         stock = req.body.stock,
         denomination = req.body.denomination,
         validity = req.body.validity,
-        img = req.body.img;
+        img = req.body.img,
+        shop_id = req.body.shop_id;
     if(id&&name&&price&&old_price&&stock&&denomination&&denomination.length&&validity&&validity.length){
-        sqlHelper.query('select id from shoplist where id = '+id,function(err,results,fields){
+        sqlHelper.query('select id from shoplist where id = '+shop_id,function(err,results,fields){
             if(err){
                 res.send({status:0,info:'系统出现问题，请稍后重试'});
                 return;
             }
             if(results.length){
-                console.log(denomination.toString());
-                sqlHelper.query('insert into goods_list set shop_id ='+id+',goods_name="'+name+'",price='+price+',old_price='+old_price+',stock='+stock+',denomination="'+denomination.toString()+'",validity="'+validity.toString()+'",img="'+img+'"',function(err,results,fields){
+                sqlHelper.query('insert into goods_list set shop_id ='+shop_id+',goods_name="'+name+'",price='+price+',old_price='+old_price+',stock='+stock+',denomination="'+denomination.toString()+'",validity="'+validity.toString()+'",img="'+img+'"',function(err,results,fields){
                     if(err){
                         res.send({status:0,info:'系统出现问题，请稍后重试'});
                         return;
@@ -64,6 +81,8 @@ router.post('/addGoods',function(req,res,next){
                 res.send({status:0,info:'店铺ID不正确！'});
             }
         });
+    }else{
+        res.send({status:0,info:'添加商品失败，请稍后重试！'});
     }
 });
 router.post('/goods_list',function(req,res,next){

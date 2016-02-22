@@ -75,4 +75,21 @@ router.get('/goods_list',function(req,res,next){
         }
     });
 });
+router.get('/good_info',function(req,res,next){
+    var id = parseInt(req.query.id);
+    if(id && typeof id === 'number'){
+        sqlHelper.query('select s.shop_name,g.id,g.goods_name,g.price,g.old_price,g.stock,g.denomination,g.validity,g.img from goods_list as g ,shoplist as s where g.shop_id = s.id and g.id='+id,function(err,results,fields){
+            if(err){
+                res.send({status:0,info:'查询有问题'});
+            }
+            if(results.length){
+                res.send({status:1,info:'查询成功',data:results});
+            }else{
+                res.send({status:0,info:'没有该商品',data:[]});
+            }
+        })
+    }else{
+        res.send({status:0,info:'Id不正确',data:[]});
+    }
+});
 module.exports = router;

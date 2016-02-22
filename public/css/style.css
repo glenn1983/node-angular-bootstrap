@@ -30,6 +30,9 @@ a {
 }
 .h100p{height: 100px;}
 .w100p{width: 100%;}
+.text_center{
+    text-align: center;
+}
 .lineH80{
     line-height: 80px;
 }

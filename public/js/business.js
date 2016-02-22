@@ -55,7 +55,9 @@ app.controller('createController',['$scope','$location','$cookieStore','userLog'
                     if(e.status === 1){
                         $cookieStore.put('business',1);
                         userName.shop_name = $scope.shop_name,
-                        userName.shop_type = $scope.shop_type;
+                        userName.shop_type = $scope.shop_type,
+                        userName.shop_id = e.data[0].id,
+                        userName.userId = e.data[0].user_id;
                         $location.path('/');
                     }
                 });
@@ -65,7 +67,11 @@ app.controller('createController',['$scope','$location','$cookieStore','userLog'
 }]);
 app.controller('businessController',['$scope','$location','$cookieStore','userLog','userService','userName',function($scope,$location,$cookieStore,userLog,userService,userName){
     var isLogin = userName.isLogin,
-        userId = userName.userId;
+        userId = userName.userId,
+        isB = $cookieStore.get('business');
+    if(!isB){
+        $location.path('/create');
+    }
     $scope.shop_name = userName.shop_name,
     $scope.shop_type = userName.shop_type,
     $scope.typeList = [
@@ -82,6 +88,7 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
         {id:11,name:'学习'}
     ],
     $scope.shop_id = userName.shop_id,
+    $scope.userId = userName.userId,
     $scope.goods_name = '',
     $scope.price = '',
     $scope.old_price = '',
@@ -134,7 +141,8 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
         $scope.noupload = $scope.img === 'img/img.png';
         if($scope.goods_name && $scope.price && $scope.old_price && $scope.stock && $scope.img && $scope.validity.length && $scope.denomination.length){
             userService.sendInfo('business/addGoods',{
-                id : $scope.shop_id,
+                id : $scope.userId,
+                shop_id : userName.shop_id,
                 name : $scope.goods_name,
                 price : $scope.price,
                 old_price : $scope.old_price,
@@ -154,6 +162,8 @@ app.controller('businessController',['$scope','$location','$cookieStore','userLo
                     $scope.validity = [],
                     $scope.dirty = !1;
                     $location.path('/list');
+                }else{
+                    toastr.error(e.info);
                 }
             });
         }

@@ -59,7 +59,7 @@ function business(id,res){
             this_business = 0;
         if (results.length) {
             if(result.limit >= 1){
-                this_business = result.limit;
+                this_business = result.limit?result.limit:0;
                 sqlHelper.query('select id, user_id,shop_name,shop_type from shoplist where user_id = '+id,function(err,results,fields){
                     if(err){
                         res.render('business', { title:'商家中心'});

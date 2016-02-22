@@ -26,19 +26,23 @@
             });
         });
     });
-    var source = document.querySelector('#source'),
-        log = document.querySelector('#log');
-    source.ondragstart = function(e){
-        e.dataTransfer.effectAllowed = 'copyMove';
-    }
-    log.ondragover = function(e){
-        e.dataTransfer.dropEffect = 'move';
-        e.preventDefault(); // 阻止默认行为
-    };
-    log.ondrop = function(e){
-        e.preventDefault();
-        var elem = source.cloneNode(true);
-        e.target.appendChild(elem);
-    };
+    //拖拽
+    ~function(){
+        var source = document.querySelector('#source'),
+                log = document.querySelector('#log');
+        source.ondragstart = function(e){
+            e.dataTransfer.effectAllowed = 'copyMove';
+        }
+        log.ondragover = function(e){
+            e.dataTransfer.dropEffect = 'move';
+            e.preventDefault(); // 阻止默认行为
+        };
+        log.ondrop = function(e){
+            e.preventDefault();
+            var elem = source.cloneNode(true);
+            e.target.appendChild(elem);
+        };
+    }();
+
 </script>
 </html>

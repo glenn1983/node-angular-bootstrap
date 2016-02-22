@@ -13,10 +13,10 @@
         <div class="col-sm-6 mbottom" ng-repeat="g in goods_list">
             <div class="col-sm-11  listbg {{ $index%2 === 0 && 'col-sm-offset-1'}} border_1 radius_3">
                  <section>
-                    <img src="" ng-src="{{g.img}}" class="w100p" />
+                    <img src="" ng-src="{{g.img}}" class="w100p" ng-click="good_info(g.id)"/>
                     <div class="col-sm-12 pdtop">
                         <p>现价：<b class="fColorT fSize18">€{{g.price}}</b>&nbsp;&nbsp;&nbsp;原价：€<del>{{g.old_price}}</del></p>
-                        <p ><b>{{g.goods_name}}</b> &nbsp;&nbsp;&nbsp;店铺：<a href="{{g.shop_id}}">{{g.shop_name}}</a></p>
+                        <p ><b ng-click="good_info(g.id)">{{g.goods_name}}</b> &nbsp;&nbsp;&nbsp;店铺：<a href="{{g.shop_id}}">{{g.shop_name}}</a></p>
                     </div>
                 </section>
             </div>
@@ -24,13 +24,13 @@
     </div>
     <div class="row">
         <div class="col-lg-4 fterdiv bdred">
-            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(1)}}" target="_blank">个人中心</a>
+            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(1)}}">个人中心</a>
         </div>
         <div class="col-lg-4 fterdiv bdred">
-            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(2)}}" target="_blank">商家信息</a>
+            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(2)}}">商家信息</a>
         </div>
         <div class="col-lg-4 fterdiv bdred" ng-show="userInfo.limit === 2">
-            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(3)}}" target="_blank">平台用户</a>
+            <a class="btn btn-info col-lg-6 col-lg-offset-3" ng-href="{{userLink(3)}}">平台用户</a>
         </div>
     </div>
 </div>
