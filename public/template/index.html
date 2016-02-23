@@ -16,7 +16,7 @@
                     <img src="" ng-src="{{g.img}}" class="w100p" ng-click="good_info(g.id)"/>
                     <div class="col-sm-12 pdtop">
                         <p>现价：<b class="fColorT fSize18">€{{g.price}}</b>&nbsp;&nbsp;&nbsp;原价：€<del>{{g.old_price}}</del></p>
-                        <p ><b ng-click="good_info(g.id)">{{g.goods_name}}</b> &nbsp;&nbsp;&nbsp;店铺：<a href="{{g.shop_id}}">{{g.shop_name}}</a></p>
+                        <p ><b ng-click="good_info(g.id)">{{g.goods_name}}</b> &nbsp;&nbsp;&nbsp;店铺：<a ng-click="toShop(g.shop_id)">{{g.shop_name}}</a></p>
                     </div>
                 </section>
             </div>

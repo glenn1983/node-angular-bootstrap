@@ -65,7 +65,7 @@
                 imglist.css({'left':0}).children('img').last().after(imglist.children('img').first());
             });*/
             move(left);
-        },3000);
+        },5000);
         var direction = $('#con .direction');
         con.hover(function(){
             direction.removeClass('show');
@@ -75,7 +75,7 @@
             timer = setInterval(function(){
                 left = imgwidth;
                 move(left);
-            },3000);
+            },5000);
         });
         direction.on('click',function(){
             var $this = $(this);

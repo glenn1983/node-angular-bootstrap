@@ -13,7 +13,11 @@ app.config(['$routeProvider',function($routeProvider) {
         })
         .when('/good_info/:id',{
             templateUrl : 'template/good_info.html',
-            controller : 'good_info'
+            controller : 'good_infoController'
+        })
+        .when('/shop/:id',{
+            templateUrl : 'template/shop_goods.html',
+            controller : 'shop_goodsController'
         })
         .otherwise({
             redirectTo: '/'
@@ -144,10 +148,17 @@ app.controller('shopListController',['$scope','$location','$cookieStore','userLo
             toastr.info('商品存在问题，请选择其他商品');
         }
     }
+    $scope.toShop = function(id){
+        if(id && angular.isNumber(id)){
+            $location.path("/shop/:"+id);
+        }else{
+            toastr.info('店铺信息有问题');
+        }
+    }
 }]);
-app.controller('good_info',['$scope','$location','userService','$routeParams',function($scope,$location,userService,$routeParams){
+app.controller('good_infoController',['$scope','$location','userService','$routeParams',function($scope,$location,userService,$routeParams){
     var param = $routeParams,
-        id = param.id.slice(1,2);
+        id = param.id.split(':')[1];
     userService.sendInfo('/good_info?id='+id).then(function(e){
         if(e.status){
             var data = e.data[0];
@@ -164,4 +175,23 @@ app.controller('good_info',['$scope','$location','userService','$routeParams',fu
             toastr.error(e.info);
         }
     })
+}]);
+app.controller('shop_goodsController',['$scope','$location','userService','$routeParams',function($scope,$location,userService,$routeParams){
+    var param = $routeParams,
+        id = param.id.split(':')[1];
+    console.log(param);
+    userService.sendInfo('/shop_goods?id='+id).then(function(e){
+        if(e.status){
+            $scope.goods_list = e.data;
+        }else{
+            toastr.error(e.info);
+        }
+    });
+    $scope.good_info = function(id){
+        if(id && angular.isNumber(id)){
+            $location.path('/good_info/:'+id);
+        }else{
+            toastr.info('商品存在问题，请选择其他商品');
+        }
+    }
 }]);
