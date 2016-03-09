@@ -171,10 +171,20 @@ app.controller('good_infoController',['$scope','$location','userService','$route
             $scope.shop_name = data.shop_name,
             $scope.stock =  data.stock,
             $scope.validity =  data.validity.split(',');
+            $scope.num = 1;
         }else{
             toastr.error(e.info);
         }
-    })
+    });
+    $scope.operate = function (a){
+       if($scope.stock && $scope.num){
+           if(a && $scope.num < $scope.stock){
+               $scope.num++;
+           }else if(!a && $scope.num>1){
+               $scope.num--;
+           }
+       }
+    }
 }]);
 app.controller('shop_goodsController',['$scope','$location','userService','$routeParams',function($scope,$location,userService,$routeParams){
     var param = $routeParams,
