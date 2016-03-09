@@ -77,3 +77,77 @@ $(function(){
     });
     dom.trigger('change');
 });
+
+var loadIframe = null;
+function createIframe(){
+   var iframe = document.createElement("iframe");
+    iframe.style.cssText = "display:none;width:0px;height:0px;";
+    document.body.appendChild(iframe);
+    loadIframe = iframe;
+}
+function redirect(){
+    alert(111)
+    loadIframe.src="TencentWeibo://xxx";
+    var t = Date.now();
+    setTimeout(function(){
+        if(Date.now()-t < 600){
+            location.href="http://t.qq.com"
+        }
+    },500)
+}
+var mobileAppInstall = (function(){
+    var ua = navigator.userAgent,
+        loadIframe,
+        win = window;
+
+    function getIntentIframe(){
+        if(!loadIframe){
+            var iframe = document.createElement("iframe");
+            iframe.style.cssText = "display:none;width:0px;height:0px;";
+            document.body.appendChild(iframe);
+            loadIframe = iframe;
+        }
+        return loadIframe;
+    }
+
+    function getChromeIntent(url){
+// 根据自己的产品修改吧
+        return  "intent://t.qq.com/#Intent;scheme="+url+";package=com.tencent.WBlog;end";
+    }
+    var appInstall = {
+        isChrome:ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/),
+        isAndroid:ua.match(/(Android);?[\s\/]+([\d.]+)?/),
+        timeout:500,
+        /**
+         * 尝试跳转appurl,如果跳转失败，进入h5url
+         * @param {Object} appurl 应用地址
+         * @param {Object} h5url  http地址
+         */
+        open:function(appurl,h5url){
+            var t = Date.now();
+            appInstall.openApp(appurl);
+            setTimeout(function(){
+                if(Date.now() - t < appInstall.timeout+100){
+                    h5url && appInstall.openH5(h5url);
+                }
+            },appInstall.timeout)
+        },
+        openApp:function(appurl){
+            if(appInstall.isChrome){
+                if(appInstall.isAndroid){
+                    win.location.href = getChromeIntent(appurl);
+                }else{
+                    win.location.href = appurl;
+                }
+            }else{
+                getIntentIframe().src = appurl;
+            }
+        },
+        openH5:function(h5url){
+            win.location.href = h5url;
+        }
+    }
+
+    return appInstall;
+})();
+createIframe();
