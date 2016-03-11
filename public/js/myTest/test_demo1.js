@@ -77,6 +77,23 @@ $(function(){
     });
     dom.trigger('change');
 });
+/*设置数据属性*/
+var obj = {};
+Object.defineProperty(obj,"name",{
+    Writable : false,
+    value  : function(str){
+        return str+'天王盖地虎';
+    }
+})
+obj.name = '呵呵呵，我就是要改！';
+var oname = obj.name('暗号')
+console.log(oname);
+Object.defineProperty(window,'kaka',{
+   Writable : false,
+   value : function(str){
+       return str+'送你离开钱力之外'
+   }
+});
 
 var loadIframe = null;
 function createIframe(){
