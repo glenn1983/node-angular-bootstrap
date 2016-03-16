@@ -25,6 +25,9 @@ a {
 .blkinlin{
     display: inline-block;
 }
+.hd{
+    display: none;
+}
 .fleftnone{
     float: none;
 }

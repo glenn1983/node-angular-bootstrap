@@ -184,6 +184,33 @@ app.controller('good_infoController',['$scope','$location','userService','$route
                $scope.num--;
            }
        }
+    };
+    $scope.isnum = function(){
+        $scope.$watch('num',function(n,o){
+            if(n != o){
+                var ns = parseInt($scope.num);
+                if(ns){
+                    $scope.num = ns;
+                }else{
+                    $scope.num = 1;
+                }
+                if(ns > $scope.stock){
+                    toastr.info('不能大于库存！')
+                    $scope.num = $scope.stock;
+                }
+            }
+        });
+    }
+    $scope.hd =!0;
+    $scope.addCart = function(){
+        $scope.hd = !1;
+        $scope.cmove = 'cart-move';
+        $scope.smove = 'sm-move';
+        setTimeout(function(){
+            $scope.$apply(function(){
+                $scope.hd = !0;
+            });
+        },3000);
     }
 }]);
 app.controller('shop_goodsController',['$scope','$location','userService','$routeParams',function($scope,$location,userService,$routeParams){

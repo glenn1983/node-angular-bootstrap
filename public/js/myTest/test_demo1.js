@@ -76,7 +76,35 @@ $(function(){
         console.log(4);
     });
     dom.trigger('change');
+    var str = '';
+    for(var i=0;i<10;i++){
+        str+='<div style="background: '+forColor()+'"></div>'
+    }
+    $('#body').append(str);
+    /*滚动将开始的那个绝对居中隐藏*/
+    $(window).on('scroll',function(){
+        var wH = $(window).height(),
+            sTop = $('body').scrollTop();
+        if(sTop > wH){
+            $('#webFill').hide();
+        }else{
+            $('#webFill').show();
+        }
+    });
 });
+
+/*随机颜色函数*/
+function forColor(){
+    var color_arr = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'],
+        color = '#',
+        len = color_arr.length;
+    for(var i=0;i < 6;i++){
+        var j = Math.floor(Math.random()*len);
+        color += color_arr[j];
+    }
+    return color
+}
+
 /*设置数据属性*/
 var obj = {};
 Object.defineProperty(obj,"name",{
@@ -168,3 +196,10 @@ var mobileAppInstall = (function(){
     return appInstall;
 })();
 createIframe();
+
+var add = add || null,
+    r = 0;
+if(add){
+    r = add(1,2,3,4,5,6,7,8,9);
+}
+console.log(r);
