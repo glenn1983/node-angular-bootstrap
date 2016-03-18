@@ -63,6 +63,18 @@ function name(t){
         return '摩卡';
     }
 }
+!function(){
+    function aObjec(name){
+        this.name = name;
+    }
+    function bObject(){
+
+    }
+    bObject.prototype = new aObjec('摩卡');
+    bObject.prototype.constructor = bObject;
+    var b = new bObject();
+    console.log(b.name);
+}();
 var module = module || {};
 module &&( module.exports = {
     'add' : add,

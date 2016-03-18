@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="http://172.16.11.12:3000/socket.io/socket.io.js"></script>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        table.tool {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+        }
+
+        #content {
+            height: auto;
+            padding: 10px;
+            padding-bottom: 32px;
+        }
+
+        #content tr {
+            margin-bottom: 10px;
+        }
+        #textContent {
+            border: 1px solid grey;
+            border-radius: 5px;
+            padding: 6px;
+        }
+
+        .left {
+            width: 88%;
+        }
+
+        #send {
+            width: auto;
+            padding: 2px 12px;
+            line-height: 26px !important;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff4400;
+        }
+
+        tr.align-left td > span {
+            float: left;
+        }
+
+        tr.align-left td > span span {
+            display: inline-block;
+        }
+
+        tr.align-right td > span {
+            float: right;
+        }
+
+        tr.align-right td > span span {
+            display: inline-block;
+        }
+
+        span.msg {
+            padding: 6px;
+            background-color: #00B7FF;
+            border: 1px solid #00B7ee;
+            border-radius: 5px;
+        }
+        .timer {
+            display: block;
+            text-align: center;
+        }
+        .name{
+            color: #006600;
+            font-weight: bold;
+        }
+        .info{
+            color: #FF4600;
+            font-family: '华文新魏';
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table id="content">
+    </table>
+</div>
+
+<table class="tool">
+    <tr>
+        <td class="left">
+            <div id="textContent" contenteditable="true" type="text"></div>
+            <!--<textarea rows="3" cols="20" id="textContent">
+
+            </textarea>-->
+        </td>
+        <td>
+            <button id="send">发送</button>
+        </td>
+    </tr>
+</table>
+<script src="/js/Lib/jquery.3.0-alpha.js"></script>
+<script>
+    var socket = io.connect('http://172.16.11.12:3000');
+    var userName = "访客某某";
+    socket.on('connect', function () {
+        userName = prompt('请输入名字');
+        userName = userName||'游客';
+        socket.emit('join', userName);
+        var ele = document.createElement('td'),
+            txt =document.createTextNode(userName+'进入房间，欢迎！！！');
+        ele.appendChild(txt);
+        $('#content').appendChild(ele);
+    });
+    socket.on('chat', function (user, data) {
+        var p = document.createElement('tr');
+        var direct = 'align-left';
+        if (user === userName) {
+            direct = 'align-right';
+            p.innerHTML = '<td ><span class=""><span class="info">' + data + '</span> <span class="name">' + user + '</span></td><span></span>';
+        } else {
+            p.innerHTML = '<td ><span class="name"> <span>' + user + '</span>   <span class="info">' + data + '</span><span></span></td>';
+        }
+        p.className = direct;
+        $('#content').appendChild(p);
+    });
+
+    $('#send').addEventListener('click', function (target) {
+        var content = $('#textContent').innerHTML;
+        if (content = content.replace(" ", "")) {
+            socket.emit('sendMSG', content);
+            $('#textContent').innerHTML = "";
+        }
+    });
+    function $(flag) {
+        return document.querySelector(flag);
+    }
+    jQuery('#textContent').on('keyup',function(e){
+        var c = e.keyCode;
+        if(c === 13){
+            var content = $('#textContent').innerHTML;
+            if (content = content.replace(" ", "")) {
+                socket.emit('sendMSG', content);
+                $('#textContent').innerHTML = "";
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

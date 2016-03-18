@@ -27,6 +27,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
+app.ready=function(server){
+    users.prepareSocketIO(server);
+};
 app.use('/image',image);
 app.use('/personal_center',personal_center);
 app.use('/business',business);
