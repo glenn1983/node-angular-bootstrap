@@ -32,3 +32,31 @@
 .show{
     display: none;
 }
+#myCanvas{
+    border: 1px solid #0075AD;
+    background: rgba(201,72,31,0.4);
+}
+#ba{
+    width: 400px;
+    height: 400px;
+    background: #67b168;
+    border: 1px solid #d9534f;
+    position: relative;
+}
+#ba .biao{
+    background: #f89406;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+#ba .huan{
+    width: 70%;
+    height: 70%;
+    border: 1px solid #66512c;
+    margin:15% 15%;
+    background: #B1C2CB;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+}

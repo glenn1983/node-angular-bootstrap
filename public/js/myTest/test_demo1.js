@@ -203,3 +203,14 @@ if(add){
     r = add(1,2,3,4,5,6,7,8,9);
 }
 console.log(r);
+var ba =  $('#ba'),
+    biao = ba.children('div'),
+    bH = ba.height(),
+    bW = ba.width();
+setInterval(function(){
+    var rt = Math.floor(bH * Math.random()),
+        rl = Math.floor(bW * Math.random());
+        rt = rt>380?380:rt,
+        rl = rl > 380?380:rt;
+    biao.css({'left':rl,'top':rt});
+},100);

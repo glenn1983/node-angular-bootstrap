@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
     mocha = require('gulp-mocha'),
-    cover = require('gulp-coverage');
+    cover = require('gulp-coverage'),
+    istanbul = require('gulp-istanbul');
 var b_service = './js/service/';
 gulp.task('service',function(){
     gulp.src(b_service+'*.js')
@@ -23,13 +24,8 @@ gulp.task('other',function(){
 });
 gulp.task('mocha',function(){
     gulp.src(['./js/test.js'],{read : false})
-        .pipe(cover.instrument({
-            pattern: ['./js/test'],
-            debugDirectory: 'debug'
-        }))
         .pipe(mocha({reporter: 'spec'}))
-        .pipe(cover.gather())
-        .pipe(cover.format())
-        .pipe(gulp.dest('mytest'));
+        .pipe(istanbul.writeReports())
+        .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
 });
 gulp.task('default',['mocha']);

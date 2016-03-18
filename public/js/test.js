@@ -16,5 +16,8 @@ describe('运算', function() {
         it('对数组里的数字进行排序', function () {
             assert.equal('45,6,2', myMath.rang([2,45,6], 'quik'));
         });
+        it('测试覆盖率', function () {
+            assert.equal('mocha', myMath.name(2));
+        });
     });
 });

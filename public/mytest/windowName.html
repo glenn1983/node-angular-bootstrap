@@ -21,7 +21,21 @@
     <div class="direction left show"></div>
     <div class="direction right show"></div>
 </div>
+<div id="ba">
+    <div class="biao"></div>
+    <div class="huan"></div>
+</div>
+<canvas id="myCanvas" width="500" height="400">
+    你的浏览器不支持canvas
+</canvas>
+<div id="getCanvas">
+    <input type="button" value="变色" class="getData" />
+    <input type="button" value="生成新图片" class="putData" />
+    <input type="text" class="cText" />
+    <input type="button" class="addText" value="添加文字" />
+</div>
 <script src="../js/Lib/jquery.3.0-alpha.js"></script>
+<script src="/js/myTest/test_demo1.js"></script>
 <script>
     window.localStorage.setItem('sun','损色');
     window.name = '损色';
@@ -99,7 +113,42 @@
                 });
             }
         }
-    }()
+    }();
+    var myCanvas = document.getElementById('myCanvas'),
+            cxt = myCanvas.getContext('2d'),
+            img = new Image();
+            img.src = '../img/skyCity6.jpg',
+            getCanvas = document.getElementById('getCanvas'),
+            imgData = '';
+    img.onload = function(){
+       // myCanvas.width = img.width;
+        //myCanvas.height = img.height;
+        cxt.drawImage(img,0,0);
+        return myCanvas;
+    };
+    getCanvas.getElementsByClassName('getData')[0].onclick = function(){
+        imgData = cxt.getImageData(0, 0, myCanvas.width, myCanvas.height);
+        var iData = imgData.data,
+              iLen = iData.length;
+        for(var i =0;i<1000000;i++){
+            var irr = iData[i];
+            iData[i] = Math.floor(irr-100);
+        }
+        imgData.data = iData;
+        cxt.putImageData(imgData,0,0);
+    };
+    getCanvas.getElementsByClassName('putData')[0].onclick = function(){
+        var img1 = new Image();
+        img1.src = myCanvas.toDataURL('img/png');
+        window.open(myCanvas.toDataURL('img/png'));
+        getCanvas.appendChild(img1);
+    };
+    getCanvas.querySelector('.addText').onclick = function(){
+        var txt = getCanvas.querySelector('.cText').value;
+        cxt.font = '30px 华文新魏';
+        cxt.fillStyle = '#f9a09a';
+        cxt.fillText(txt,20,50);
+    }
 </script>
 </body>
 </html>

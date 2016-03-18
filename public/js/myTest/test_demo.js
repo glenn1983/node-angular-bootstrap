@@ -56,8 +56,16 @@ function quik_sort(arr){
     }
     return quik_sort(left).concat([pivot],quik_sort(right));
 }
+function name(t){
+    if(t){
+        return 'mocha';
+    }else{
+        return '摩卡';
+    }
+}
 var module = module || {};
 module &&( module.exports = {
     'add' : add,
-    'rang' : range
+    'rang' : range,
+    'name' : name
 });
