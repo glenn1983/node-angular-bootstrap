@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-01-29 11:34:43
+-- Generation Time: 2016-03-21 02:48:24
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.5.15
 
@@ -36,18 +36,20 @@ CREATE TABLE IF NOT EXISTS `goods_list` (
   `denomination` varchar(50) NOT NULL,
   `validity` varchar(50) NOT NULL,
   `img` varchar(300) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- 转存表中的数据 `goods_list`
 --
 
 INSERT INTO `goods_list` (`id`, `shop_id`, `goods_name`, `price`, `old_price`, `stock`, `denomination`, `validity`, `img`) VALUES
-(3, 6, '年底冲刺销量大促买300送300', '200', '650', 6000, '80,100,150,200', '10,8,5,3', ''),
-(4, 6, '华东大区特价优惠', '200', '300', 960, '100', '20', ''),
-(5, 6, '店铺周年庆大促买1送3', '100', '230', 6, '50,1000,500,300', '100,50,30,20', ''),
-(6, 6, '赵丽颖同款智商秒杀所有人', '100', '200', 300, '50,80,100', '20,30,50', ''),
-(7, 6, '腊八粥营养早餐春节大放送', '20', '89', 128, '80,1000,300', '50,30,20,100', 'img/upimg/0.46105061494745314.jpg');
+(7, 6, '腊八粥营养早餐春节大放送', '20', '89', 128, '80,1000,300', '50,30,20,100', 'img/upimg/0.46105061494745314.jpg'),
+(8, 6, '每日轻松一刻强烈推荐产品', '188', '966', 3, '1000,300,200', '100,50,30,20', 'img/upimg/0.6530198147520423.jpg'),
+(9, 6, '春节大返利姚笛签名智商充值套餐', '200', '1350', 20, '50,80,100,150,200,300', '30,20,100', 'img/upimg/0.18467349070124328.jpg'),
+(10, 19, '每天站在高楼上看着地上的小蚂蚁', '640', '890', 560, '80,100,300,500', '50,30,100,10', 'img/upimg/0.6043837738689035.jpg'),
+(11, 19, '天空之城宫崎骏的某种期许', '80', '90', 130, '50,80', '8,10', 'img/upimg/0.04650297900661826.jpg'),
+(12, 19, '万物生长靠太阳尊享', '800', '1800', 9, '50,80,100', '8,10,20', 'img/upimg/0.396100633777678.jpg'),
+(13, 19, '油品商城连夜加班所得', '99', '12', 3, '50,80,100', '5,3,100,20', 'img/upimg/0.6478600825648755.jpg');
 
 -- --------------------------------------------------------
 
@@ -60,14 +62,15 @@ CREATE TABLE IF NOT EXISTS `shoplist` (
   `user_id` int(20) NOT NULL,
   `shop_name` varchar(50) NOT NULL,
   `shop_type` varchar(50) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- 转存表中的数据 `shoplist`
 --
 
 INSERT INTO `shoplist` (`id`, `user_id`, `shop_name`, `shop_type`) VALUES
-(6, 10, '智商充值华北去旗舰店', '11');
+(6, 10, '智商充值华北去旗舰店', '11'),
+(19, 13, '尼亚加拉瀑布的忧伤', '5');
 
 -- --------------------------------------------------------
 
@@ -81,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(200) NOT NULL,
   `nickname` varchar(30) DEFAULT NULL,
   `limit` int(2) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- 转存表中的数据 `user`
@@ -89,8 +92,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `nickname`, `limit`) VALUES
 (10, 'genius', '96e79218965eb72c92a549dd5a330112', '暴躁的小蜗牛', 2),
-(11, 'genius1', '96e79218965eb72c92a549dd5a330112', NULL, 0),
-(12, 'genius2', '96e79218965eb72c92a549dd5a330112', NULL, 0);
+(13, 'zzyycg', '96e79218965eb72c92a549dd5a330112', '分萧萧兮易水寒', 1);
 
 -- --------------------------------------------------------
 
@@ -112,14 +114,15 @@ CREATE TABLE IF NOT EXISTS `user_record` (
   `profession` varchar(20) DEFAULT NULL,
   `color` varchar(20) DEFAULT NULL,
   `avatar` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- 转存表中的数据 `user_record`
 --
 
 INSERT INTO `user_record` (`id`, `user_id`, `QQ`, `motto`, `salary`, `orientation`, `interest`, `wishful`, `homeland`, `address`, `profession`, `color`, `avatar`) VALUES
-(1, 10, 2147483647, '爱国主义，多少罪恶假汝之名', '五毛', '食用主义', '足球（呵呵）', '面朝大海，春暖花开，穿着大裤衩和西装游泳', '{"p":"provinces19","c":"cities261","n":"counties2184","pn":"内蒙古","cn":"包头","nn":"九原区"}', '{"p":"provinces17","c":"cities235","n":"counties1995","pn":"江西","cn":"赣州","nn":"兴国县"}', '水泥工', '红色蓝色黑色咖啡色', 'img/upimg/0.11735455226153135.jpg');
+(1, 10, 2147483647, '爱国主义，多少罪恶假汝之名', '五毛', '食用主义', '足球（呵呵）', '面朝大海，春暖花开，穿着大裤衩和西装游泳', '{"p":"provinces19","c":"cities261","n":"counties2184","pn":"内蒙古","cn":"包头","nn":"九原区"}', '{"p":"provinces17","c":"cities235","n":"counties1995","pn":"江西","cn":"赣州","nn":"兴国县"}', '水泥工', '红色蓝色黑色咖啡色', 'img/upimg/0.11735455226153135.jpg'),
+(2, 13, 123123, '爱国主义，多少罪恶假汝之名', '五毛', '食用主义', '足球（呵呵）', '面朝大海，春暖花开，穿着大裤衩和西装游泳', '{"p":"provinces4","c":"cities55","n":"counties540","pn":"福建","cn":"南平","nn":"武夷山市"}', '{"p":"provinces3","c":"cities38","n":"counties418","pn":"安徽","cn":"巢湖","nn":"无为县"}', '水泥工', '红色蓝色黑色咖啡色', 'img/upimg/0.5139642104040831.jpg');
 
 --
 -- Indexes for dumped tables
@@ -157,22 +160,22 @@ ALTER TABLE `user_record`
 -- AUTO_INCREMENT for table `goods_list`
 --
 ALTER TABLE `goods_list`
-MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `shoplist`
 --
 ALTER TABLE `shoplist`
-MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `user_record`
 --
 ALTER TABLE `user_record`
-MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
