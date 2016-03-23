@@ -33,13 +33,21 @@
     position: absolute;
 }
 .cart-move{
-    animation: Cmove 3s linear;
-    -webkit-animation: Cmove 3s linear;
+    animation: Cmove 3s linear backwards;
+    -webkit-animation: Cmove 3s linear backwards;
 
 }
 .sm-move{
-    animation: Mmove 3s linear;
-    -webkit-animation: Mmove 3s linear;
+    animation: Mmove 3s linear backwards;
+    -webkit-animation: Mmove 3s linear backwards;
+}
+.cart-img{
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:1
 }
 .backColor{
     background: #FFF;
@@ -59,26 +67,22 @@
 }
 @keyframes Mmove
 {
-    0% { width: 200px;
-        height: 200px;
-        display: block;position: fixed;}
-    10%{left: 10%;top:10%;width: 150px;height: 150px;}
+    0% { }
+    10%{left: 10%;top:10%;}
     20%{left: 30%;top:15%;}
     30%{left: 40%;top:20%;}
     50%{left: 60%;top:25%;}
-    70%{left: 80%;top:30%;width: 30px;height: 30px;}
-    100%{left: 100%;top:40%;display: none;}
+    70%{left: 80%;top:30%;}
+    100%{left: 100%;top:48%;width: 30px;height: 30px;}
 }
 
 @-webkit-keyframes Mmove /* Safari 和 Chrome */
 {
-    0% { width: 200px;
-        height: 200px;
-        display: block;position: fixed;}
+    0% {}
     10%{left: 10%;top:10%;width: 150px;height: 150px;}
     20%{left: 30%;top:15%;}
     30%{left: 40%;top:20%;}
     50%{left: 60%;top:25%;}
-    70%{left: 80%;top:30%;width: 30px;height: 30px;}
-    100%{left: 100%;top:40%;display: none;}
+    70%{left: 80%;top:30%;;}
+    100%{left: 100%;top:40%;}
 }

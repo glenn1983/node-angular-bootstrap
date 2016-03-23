@@ -204,13 +204,26 @@ if(add){
 }
 console.log(r);
 var ba =  $('#ba'),
-    biao = ba.children('div'),
+    biao = ba.children('div.biao'),
     bH = ba.height(),
     bW = ba.width();
-setInterval(function(){
+var timeer = setInterval(function(){
     var rt = Math.floor(bH * Math.random()),
         rl = Math.floor(bW * Math.random());
         rt = rt>380?380:rt,
         rl = rl > 380?380:rt;
-    biao.css({'left':rl,'top':rt});
+    biao.animate({'left':rl,'top':rt},50);
 },100);
+$('#she').on('click',function(){
+    clearInterval(timeer);
+    var $xin = $('.xin'),
+        x = $xin.position(),
+        xl = x.top+$xin.width()/ 2,
+        xh = x.left+$xin.height()/2;
+    $('.biao').hide();
+    $('#fei').animate({left:xl,top:xh,'z-index':2},200,function(){
+        var $quan = $('#quan');
+        $quan.addClass('back1');
+    })
+});
+

@@ -75,6 +75,22 @@ function name(t){
     var b = new bObject();
     console.log(b.name);
 }();
+var referrer = document.referrer;
+if(referrer && document.referrer.search('http://localhost:3000') !== 0){
+    console.log('是从非站内网页跳转过来的');
+}
+/*for(var i =0;i<100000;i++){
+    //块级作用域，防止内存占用
+    !function(){
+        function bibao(){
+            var moka = 111;
+            return function(){
+                return moka;
+            }
+        }
+        console.log(bibao()());
+    }()
+}*/
 var module = module || {};
 module &&( module.exports = {
     'add' : add,

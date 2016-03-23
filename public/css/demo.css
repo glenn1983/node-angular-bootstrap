@@ -60,3 +60,43 @@
     border-radius: 50%;
     -webkit-border-radius: 50%;
 }
+#ba .huan .xin{
+    width: 4%;
+    height: 4%;
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    background: #d9534f;
+}
+#fei{
+    width: 50px;
+    height: 70px;
+    position: absolute;
+    left: 350px;
+    top:100%;
+    background: #f89406;
+}
+#quan{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    display: none;
+}
+#quan.back1{
+    display:block;
+    z-index:1;
+    -webkit-animation: b_name 1s forwards;
+    animation: b_name 1s forwards;
+}
+@-webkit-keyframes b_name{
+    0%{background: rgba(23,110,78,0.4)}
+    50%{background: rgba(123,10,178,0.4)}
+    100%{background: rgba(230,8,18,0.4)}
+}
+@keyframes b_name{
+    0%{background: rgba(23,110,78,0.4)}
+    50%{background: rgba(123,10,178,0.4)}
+    100%{background: rgba(230,8,18,0.4)}
+}
