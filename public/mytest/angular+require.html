@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>活动后台框架储备</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/phone_bug.css" />
+<link href="/img/favicon.ico" rel="shortcut icon">
+</head>
+<body>
+	<header class="width">头部导航</header>
+	<div class="main width">
+        <ul>
+        	<li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li id="show_nave"></li>
+            <li>
+                <input type="text" class="val_show" />
+            </li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <footer><input type="text" class="val_show" /></footer>
+</body>
+<script src="../js/Lib/jquery.3.0-alpha.js"></script>
+<script>
+    $(function(){
+        var h = $(window).height();
+        var val = $('.val_show');
+        val.on('focus',function(){
+            var h = $(window).height(),
+                $this = $(this),
+                pos = $this[0].getBoundingClientRect();
+            $('ul li:eq(0)').html(h);
+            if(pos.top >=h/2){
+                $this.data('top',pos.top);
+                $this[0].style.position = 'absolute';
+                $this[0].style.top = 20;
+            }
+        });
+        val.on('blur',function(){
+            var $this = $(this),
+                 $top = $this.data('top');
+            $this.data('top',0);
+            if($top){
+                $this[0].style.top = $top;
+                $this[0].style.position = 'relative';
+            }
+        });
+    });
+</script>
+</html>
